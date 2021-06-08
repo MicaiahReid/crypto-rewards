@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Compaign() {
+export default function Campaign() {
   const classes = useStyles();
 
   return (
@@ -35,17 +35,17 @@ export default function Compaign() {
         <Grid container spacing={2}>
           <Grid item>
             <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src="/static/images/grid/complex.jpg" />
+              Pending
             </ButtonBase>
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                  Standard license
+                  Uniswap Campaign
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  Full resolution 1920x1080 • JPEG
+                  Execute a trade
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   ID: 1030114
@@ -53,12 +53,12 @@ export default function Compaign() {
               </Grid>
               <Grid item>
                 <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
+                  Enroll
                 </Typography>
               </Grid>
             </Grid>
             <Grid item>
-              <Typography variant="subtitle1">$19.00</Typography>
+              <Typography variant="subtitle1">Reward 1.00 eth</Typography>
             </Grid>
           </Grid>
         </Grid>
