@@ -9,16 +9,16 @@ import Campaign from '../../Campaign/Campaign';
 import OnboardingButton from './OnboardingButton/OnboardingButton';
 import TabPanel from './TabPanel/TabPanel';
 
-function NavigationMenu () {
-
-    const classes = useStyles();
-
-    const [value, setValue] = React.useState(0);
-  
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };  
-    const data = [
+class NavigationMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 0,
+      campaigns: []
+    };
+  }
+  componentDidMount() { // will use for initial fetching of data
+    let campaignData = [
       {
         id: "1",
         title: "Uniswap Trade",
@@ -39,7 +39,46 @@ function NavigationMenu () {
         longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
       },
     ];
-    const campaigns = data.map((campaign) => {
+    const userEnrolledCampaigns = ["1"];
+    if(userEnrolledCampaigns.length > 0) { // merge each campaign with whether the user has already enrolled in that campaign
+      for(let i = 0; i < userEnrolledCampaigns.length; i++) {
+        const userCampaignId = userEnrolledCampaigns[i];
+        for(let j = 0; j < campaignData.length; j++) {
+          const campaignId = campaignData[j].id
+          if(userCampaignId === campaignId) {
+            campaignData[j].userEnrolled = true;
+          }
+        }
+      }
+    }
+    this.setState({ campaigns: campaignData });
+  }
+  useStyles() {
+    return makeStyles((theme) => ({
+      root: {
+        flexGrow: 1,
+      },
+      menuButton: {
+        marginRight: theme.spacing(2),
+      },
+      title: {
+        flexGrow: 1,
+        marginLeft: theme.spacing(1),
+      },
+    }));
+  }
+  a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+  handleChange = (event, newValue) => {
+    this.setState({ value: newValue });
+  };
+  render() {
+    const classes = this.useStyles();
+    const campaigns = this.state.campaigns.map((campaign) => {
       return <Campaign key={campaign.id} campaign={campaign}></Campaign>;
     });
 
@@ -52,45 +91,25 @@ function NavigationMenu () {
             </Typography>
             <OnboardingButton color="inherit">Connect Wallet</OnboardingButton>
           </Toolbar>
-          <Tabs value={value} onChange={handleChange}>
-            <Tab label="Campaigns" {...a11yProps(0)} />
-            <Tab label="Resume" {...a11yProps(1)} />
-            <Tab label="Create Campaign" {...a11yProps(2)} />
+          <Tabs value={this.state.value} onChange={this.handleChange}>
+            <Tab label="Campaigns" {...this.a11yProps(0)} />
+            <Tab label="Resume" {...this.a11yProps(1)} />
+            <Tab label="Create Campaign" {...this.a11yProps(2)} />
           </Tabs>
         </AppBar>
 
-        <TabPanel value={value} index={0}>
+        <TabPanel value={this.state.value} index={0}>
           <div className="body">{campaigns}</div>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={this.state.value} index={1}>
           Resume Page
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel value={this.state.value} index={2}>
           Create Campaign Page
         </TabPanel>
       </>
     );
-
+  }
 }
-
-function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-      marginLeft: theme.spacing(1),
-    }
-  }));
 
 export default NavigationMenu;
