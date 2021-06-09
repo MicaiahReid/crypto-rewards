@@ -6,6 +6,6 @@ describe("Get Campaign", () => {
     const endpoint = "/api/campaign";
     const response = await request(app).get(endpoint);
     expect(response.status).toBe(200);
-    expect(response.body.data).toBe("complete");
+    expect(response.body.data).toEqual([]);
   });
 });
