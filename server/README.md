@@ -13,3 +13,7 @@ The server will reload if you make edits.
 ### `yarn test`
 
 Runs the API tests
+
+### `yarn run seed`
+
+Seed the database
