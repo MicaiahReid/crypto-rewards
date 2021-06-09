@@ -40,7 +40,7 @@ function NavigationMenu () {
       },
     ];
     const campaigns = data.map((campaign) => {
-      return <Campaign campaign={campaign}></Campaign>;
+      return <Campaign key={campaign.id} campaign={campaign}></Campaign>;
     });
 
     return (
