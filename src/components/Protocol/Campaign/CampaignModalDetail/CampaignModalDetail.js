@@ -40,12 +40,8 @@ class CampaignModalDetail extends React.Component {
         const classes = this.useStyles();
         return(
             <Dialog onClose={this.props.onClose} aria-labelledby="challenge-dialog-title" open={this.props.open}>
-                    <MuiDialogTitle disableTypography className={classes.root} id="customized-dialog-title">
-                        <Grid
-                        justify="space-between"
-                        container 
-                        spacing={24}
-                        >
+                    <MuiDialogTitle disableTypography dividers className={classes.root} id="customized-dialog-title">
+                        <Grid justify="space-between" container spacing={24} >
                             <Typography variant="h6">{this.props.modalTitle}</Typography>
 
                             {this.props.onClose ? (
@@ -54,14 +50,13 @@ class CampaignModalDetail extends React.Component {
                                 </IconButton>) : null}
                         </Grid>
                     </MuiDialogTitle>
-                <DialogContent dividers>
-                    <Typography gutterBottom>
-                        <ReactMarkdown>{this.props.modalDetails}</ReactMarkdown>
-                    </Typography>
-                </DialogContent>
-                <DialogContent dividers>
+                <DialogContent dividers >
                     <Typography gutterBottom>
                         To learn more about this protocol, visit: <Link href="https://uniswap.org/about/">About Uniswap</Link>
+                    </Typography>
+
+                    <Typography gutterBottom>
+                        <ReactMarkdown>{this.props.modalDetails}</ReactMarkdown>
                     </Typography>
                 </DialogContent>
             </Dialog>

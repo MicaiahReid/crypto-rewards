@@ -4,22 +4,19 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import CampaignModalDetail from './CampaignModalDetail/CampaignModalDetail';
+import ButtonBase from  '@material-ui/core/ButtonBase';
 
 class Campaign extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
       enrolled: props.campaign.userEnrolled,
-      anchorEl: null
+      displayModal: null
     }
   }
 
@@ -63,33 +60,29 @@ class Campaign extends React.Component {
   enroll(id) {
     console.log(id);
   }
-  handleExpandClick() {
-    this.setState({
-      expanded: !this.state.expanded
-    })
-  }
 
   handleClick = (event) => {
     this.setState({
-      anchorEl: true
+      displayModal: true
     })
   };
 
   handleClose = () => {
-    console.log('Test')
     this.setState({
-      anchorEl: null
+      displayModal: null
     })  
   };
 
   render() {
-    const open = Boolean(this.state.anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+    const open = Boolean(this.state.displayModal);
     const campaign = this.props.campaign;
     const classes = this.useStyles();
     return (
       <Box className={classes.root}>
         <Card className={classes.card}>
+          <ButtonBase
+            onClick={event => {this.handleClick()}}
+          >
           <CardContent>
             <Grid container>
               <Grid item xs={2}>
@@ -116,13 +109,7 @@ class Campaign extends React.Component {
               {campaign.shortDescription}
             </Typography>
           </CardContent>
-          {/* <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>
-                <ReactMarkdown children={campaign.longDescription}></ReactMarkdown>
-              </Typography>
-            </CardContent>
-          </Collapse> */}
+          </ButtonBase>
           <CardActions>
             <Button
               onClick={(e) => this.enroll(campaign.id)}
@@ -131,15 +118,6 @@ class Campaign extends React.Component {
             >
               {this.state.enrolled ? "Verify" : "Enroll"}
             </Button>
-            <IconButton
-              className={classes.expand + classes.expandOpen ? +" " + this.state.expanded : ""}
-              onClick={(e) => this.handleClick()}
-              aria-describedby={id}
-              aria-expanded={this.state.expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
           </CardActions>
         </Card>
         <CampaignModalDetail 
