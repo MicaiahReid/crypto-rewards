@@ -17,9 +17,9 @@ class Protocol extends React.Component {
         const campaigns = this.props.campaigns
         return(
             <Grid item xs={12}>
-                <Grid container justify="center" spacing={3}>
+                <Grid container justify="center" alignItems="stretch" spacing={3}>
                     {campaigns.map((campaign) => (
-                        <Grid key={campaign.id} item align="stretch">
+                        <Grid key={campaign.id} item xs={12} sm={4}>
                             <Box>
                                 <Campaign key={campaign.id} campaign={campaign}></Campaign>
                             </Box>
