@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from "@material-ui/core/IconButton";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ReactMarkdown from 'react-markdown';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,13 +86,19 @@ export default function Compaign({campaign}) {
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{campaign.longDescription}</Typography>
+            <Typography paragraph>
+              <ReactMarkdown
+                children={campaign.longDescription}
+              ></ReactMarkdown>
+            </Typography>
           </CardContent>
         </Collapse>
         <CardActions>
           Enroll
           <IconButton
-            className={classes.expand + classes.expandOpen ? + " " + expanded : ""}
+            className={
+              classes.expand + classes.expandOpen ? +" " + expanded : ""
+            }
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"

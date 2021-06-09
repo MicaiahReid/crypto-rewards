@@ -26,7 +26,7 @@ function NavigationMenu () {
           "Trade 10 Uniswap tokens for the first time to earn UNI rewards!",
         subtitle: "",
         reward: "5 UNI",
-        longDescription: "Test",
+        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!`,
       },
 
       {
@@ -36,7 +36,7 @@ function NavigationMenu () {
           "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
         subtitle: "",
         reward: "50 COMP",
-        longDescription: "Test",
+        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
       },
     ];
     const campaigns = data.map((campaign) => {
