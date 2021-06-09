@@ -122,7 +122,7 @@ class NavigationMenu extends React.Component {
         
           <Tabs value={this.state.value} onChange={this.handleChange}>
             <Tab label="Challenges" {...this.a11yProps(0)} />
-            <Tab label="Rewards" {...this.a11yProps(1)} />
+            <Tab label="Achivements" {...this.a11yProps(1)} />
           </Tabs>
 
         <TabPanel value={this.state.value} index={0}>

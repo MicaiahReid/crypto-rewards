@@ -10,17 +10,19 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ReactMarkdown from 'react-markdown';
 import Box from '@material-ui/core/Box';
+import CampaignModalDetail from './CampaignModalDetail/CampaignModalDetail';
 
 class Campaign extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: false,
-      enrolled: props.campaign.userEnrolled
+      enrolled: props.campaign.userEnrolled,
+      anchorEl: null
     }
   }
+
   useStyles() {
     return makeStyles((theme) => ({
       root: {
@@ -66,7 +68,23 @@ class Campaign extends React.Component {
       expanded: !this.state.expanded
     })
   }
+
+  handleClick = (event) => {
+    this.setState({
+      anchorEl: true
+    })
+  };
+
+  handleClose = () => {
+    console.log('Test')
+    this.setState({
+      anchorEl: null
+    })  
+  };
+
   render() {
+    const open = Boolean(this.state.anchorEl);
+    const id = open ? 'simple-popover' : undefined;
     const campaign = this.props.campaign;
     const classes = this.useStyles();
     return (
@@ -98,13 +116,13 @@ class Campaign extends React.Component {
               {campaign.shortDescription}
             </Typography>
           </CardContent>
-          <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+          {/* <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
                 <ReactMarkdown children={campaign.longDescription}></ReactMarkdown>
               </Typography>
             </CardContent>
-          </Collapse>
+          </Collapse> */}
           <CardActions>
             <Button
               onClick={(e) => this.enroll(campaign.id)}
@@ -115,7 +133,8 @@ class Campaign extends React.Component {
             </Button>
             <IconButton
               className={classes.expand + classes.expandOpen ? +" " + this.state.expanded : ""}
-              onClick={(e) => this.handleExpandClick()}
+              onClick={(e) => this.handleClick()}
+              aria-describedby={id}
               aria-expanded={this.state.expanded}
               aria-label="show more"
             >
@@ -123,6 +142,13 @@ class Campaign extends React.Component {
             </IconButton>
           </CardActions>
         </Card>
+        <CampaignModalDetail 
+          open={open} 
+          onClose={this.handleClose} 
+          modalTitle={campaign.title}
+          modalDetails={campaign.longDescription}
+        >
+        </CampaignModalDetail>
       </Box>
     );
   }
