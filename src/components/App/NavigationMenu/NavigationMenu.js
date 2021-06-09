@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Campaign from '../../Campaign/Campaign';
+import Protocol from '../../Protocol/Protocol';
 import OnboardingButton from './OnboardingButton/OnboardingButton';
 import TabPanel from './TabPanel/TabPanel';
 
@@ -28,7 +29,24 @@ class NavigationMenu extends React.Component {
         reward: "5 UNI",
         longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!`,
       },
-
+      {
+        id: "2",
+        title: "Compound Investments",
+        shortDescription:
+          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
+        subtitle: "",
+        reward: "50 COMP",
+        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
+      },
+      {
+        id: "1",
+        title: "Uniswap Trade",
+        shortDescription:
+          "Trade 10 Uniswap tokens for the first time to earn UNI rewards!",
+        subtitle: "",
+        reward: "5 UNI",
+        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!`,
+      },
       {
         id: "2",
         title: "Compound Investments",
@@ -59,6 +77,7 @@ class NavigationMenu extends React.Component {
         flexGrow: 1,
       },
       menuButton: {
+        flexGrow: 2,
         marginRight: theme.spacing(2),
       },
       title: {
@@ -78,34 +97,39 @@ class NavigationMenu extends React.Component {
   };
   render() {
     const classes = this.useStyles();
-    const campaigns = this.state.campaigns.map((campaign) => {
-      return <Campaign key={campaign.id} campaign={campaign}></Campaign>;
-    });
 
     return (
       <>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              Crypo Rewards
-            </Typography>
-            <OnboardingButton color="inherit">Connect Wallet</OnboardingButton>
+            <Grid
+            justify="space-between"
+            container 
+            spacing={24}
+            >
+              <Grid item>
+                <Typography variant="h6" className={classes.title}>
+                  ConsenSys Rewards
+                </Typography>
+              </Grid>
+
+              <Grid item>
+                <OnboardingButton color="inherit">Connect Wallet</OnboardingButton>
+              </Grid>
+            </Grid>
           </Toolbar>
-          <Tabs value={this.state.value} onChange={this.handleChange}>
-            <Tab label="Campaigns" {...this.a11yProps(0)} />
-            <Tab label="Resume" {...this.a11yProps(1)} />
-            <Tab label="Create Campaign" {...this.a11yProps(2)} />
-          </Tabs>
         </AppBar>
+        
+          <Tabs value={this.state.value} onChange={this.handleChange}>
+            <Tab label="Challenges" {...this.a11yProps(0)} />
+            <Tab label="Rewards" {...this.a11yProps(1)} />
+          </Tabs>
 
         <TabPanel value={this.state.value} index={0}>
-          <div className="body">{campaigns}</div>
+          <Protocol campaigns={this.state.campaigns}></Protocol>
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
-          Resume Page
-        </TabPanel>
-        <TabPanel value={this.state.value} index={2}>
-          Create Campaign Page
+          Add Material UI Table
         </TabPanel>
       </>
     );

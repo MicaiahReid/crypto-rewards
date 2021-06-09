@@ -11,7 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ReactMarkdown from 'react-markdown';
-
+import Box from '@material-ui/core/Box';
 
 class Campaign extends React.Component {
   constructor(props) {
@@ -24,12 +24,13 @@ class Campaign extends React.Component {
   useStyles() {
     return makeStyles((theme) => ({
       root: {
-        flexGrow: 1,
+        flexWrap: "wrap",
+        flexGrow: 1
       },
       card: {
         padding: theme.spacing(2),
         margin: "100px",
-        maxWidth: "60%",
+        width: "60%",
       },
       image: {
         width: 128,
@@ -69,7 +70,7 @@ class Campaign extends React.Component {
     const campaign = this.props.campaign;
     const classes = this.useStyles();
     return (
-      <div className={classes.root}>
+      <Box className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
             <Grid container>
@@ -122,7 +123,7 @@ class Campaign extends React.Component {
             </IconButton>
           </CardActions>
         </Card>
-      </div>
+      </Box>
     );
   }
 }
