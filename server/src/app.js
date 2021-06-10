@@ -1,4 +1,5 @@
 require("dotenv").config();
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const routes = require("./routes");
@@ -15,6 +16,7 @@ const options = {
 mongoose.connect(mongodbUri, options);
 
 app.use(express.json());
+app.use(cors());
 app.get("/", (req, res) => res.send("Welcome to Crypto Rewards"));
 app.use("/api/", routes.campaign);
 app.use("/api/", routes.user);

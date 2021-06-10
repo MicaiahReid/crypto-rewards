@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Campaign from '../../Campaign/Campaign';
 import OnboardingButton from './OnboardingButton/OnboardingButton';
 import TabPanel from './TabPanel/TabPanel';
+const axios = require("axios").default;
+axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 class NavigationMenu extends React.Component {
   constructor(props) {
@@ -17,41 +20,29 @@ class NavigationMenu extends React.Component {
       campaigns: []
     };
   }
-  componentDidMount() { // will use for initial fetching of data
-    let campaignData = [
-      {
-        id: "1",
-        title: "Uniswap Trade",
-        shortDescription:
-          "Trade 10 Uniswap tokens for the first time to earn UNI rewards!",
-        subtitle: "",
-        reward: "5 UNI",
-        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!`,
-      },
-
-      {
-        id: "2",
-        title: "Compound Investments",
-        shortDescription:
-          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
-        subtitle: "",
-        reward: "50 COMP",
-        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
-      },
-    ];
-    const userEnrolledCampaigns = ["1"];
-    if(userEnrolledCampaigns.length > 0) { // merge each campaign with whether the user has already enrolled in that campaign
-      for(let i = 0; i < userEnrolledCampaigns.length; i++) {
-        const userCampaignId = userEnrolledCampaigns[i];
-        for(let j = 0; j < campaignData.length; j++) {
-          const campaignId = campaignData[j].id
-          if(userCampaignId === campaignId) {
-            campaignData[j].userEnrolled = true;
+  componentDidMount() {
+    axios
+      .get("/api/campaigns")
+      .then((res) => {
+        const campaignData = res.data;
+        const userEnrolledCampaigns = ["1"];
+        if (userEnrolledCampaigns.length > 0) {
+          // merge each campaign with whether the user has already enrolled in that campaign
+          for (let i = 0; i < userEnrolledCampaigns.length; i++) {
+            const userCampaignId = userEnrolledCampaigns[i];
+            for (let j = 0; j < campaignData.length; j++) {
+              const campaignId = campaignData[j]._id;
+              if (userCampaignId === campaignId) {
+                campaignData[j].userEnrolled = true;
+              }
+            }
           }
         }
-      }
-    }
-    this.setState({ campaigns: campaignData });
+        this.setState({ campaigns: campaignData });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   useStyles() {
     return makeStyles((theme) => ({
@@ -79,7 +70,7 @@ class NavigationMenu extends React.Component {
   render() {
     const classes = this.useStyles();
     const campaigns = this.state.campaigns.map((campaign) => {
-      return <Campaign key={campaign.id} campaign={campaign}></Campaign>;
+      return <Campaign key={campaign._id} campaign={campaign}></Campaign>;
     });
 
     return (

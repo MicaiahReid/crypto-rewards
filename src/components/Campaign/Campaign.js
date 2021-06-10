@@ -68,19 +68,20 @@ class Campaign extends React.Component {
   render() {
     const campaign = this.props.campaign;
     const classes = this.useStyles();
+    const avatar = campaign.icon ? (
+      <Avatar className={classes.avatar} src={campaign.icon} />
+    ) : (
+      <Avatar className={classes.avatar}>
+        {campaign.title.substring(0, 1)}
+      </Avatar>
+    );
     return (
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
             <Grid container>
               <Grid item xs={2}>
-                <Typography component="div">
-                  {
-                    <Avatar className={classes.avatar}>
-                      {campaign.title.substring(0, 1)}
-                    </Avatar>
-                  }
-                </Typography>
+                <Typography component="div">{avatar}</Typography>
               </Grid>
               <Grid item xs={5}>
                 <Typography variant="h4" component="h2">
