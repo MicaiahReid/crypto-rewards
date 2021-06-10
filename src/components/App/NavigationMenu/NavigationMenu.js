@@ -26,11 +26,9 @@ class NavigationMenu extends React.Component {
         if (accounts.length > 0) {
           getPath += "/" + accounts[0];
         }
-        console.log(getPath);
         axios
           .get(getPath)
           .then((res) => {
-            console.log(res.data);
             this.setState({ campaigns: res.data });
           })
           .catch((error) => {
