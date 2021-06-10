@@ -62,7 +62,7 @@ class Campaign extends React.Component {
   };
 
   render() {
-    const classes = this.useStyles();
+    const campaign = this.props.campaign
     return (
       // <Box className={classes.root}>
       //   <Card className={classes.card}>
@@ -152,17 +152,17 @@ class Campaign extends React.Component {
           }}
         >
           <div style={{ color: "white", fontSize: 20, fontWeight: "800" }}>
-            {"Uniswap"}
+            {campaign.title}
           </div>
           <div style={{ color: "white", fontSize: 13 }}>
-            {"Provide Liquidity"}
+            {campaign.shortDescription}
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ color: "white", fontSize: 13, marginRight: 4 }}>
               {"Rewards:"}
             </div>
             <div style={{ color: "white", fontSize: 13, fontWeight: "800" }}>
-              {"5 UNI"}
+              {campaign.reward}
             </div>
           </div>
           <RoundButton style={{ marginTop: 8 }} label={"Enroll"} />

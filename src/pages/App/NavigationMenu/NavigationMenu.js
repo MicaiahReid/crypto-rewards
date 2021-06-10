@@ -1,19 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Protocol from "../../Challenges";
 import Achievements from "../../Rewards";
 import OnboardingButton from "./OnboardingButton/OnboardingButton";
-import TabPanel from "./TabPanel/TabPanel";
 import CustomTabs from "../../components/tabs";
 import Header from "../../components/header";
 import Landing from "../../Landing";
 import CampaignModalDetail from "../../CampaignModalDetail";
+const axios = require("axios").default;
+axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 class NavigationMenu extends React.Component {
   constructor(props) {
@@ -26,61 +22,31 @@ class NavigationMenu extends React.Component {
       selectedCampaign: undefined,
     };
   }
-  async componentDidMount() {
-    // will use for initial fetching of data
-    let campaignData = [
-      {
-        id: "1",
-        title: "Uniswap Trade",
-        shortDescription:
-          "Trade 10 Uniswap tokens for the first time to earn UNI rewards!",
-        subtitle: "",
-        reward: "5 UNI",
-        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!`,
-      },
-      {
-        id: "2",
-        title: "Compound Investments",
-        shortDescription:
-          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
-        subtitle: "",
-        reward: "50 COMP",
-        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
-      },
-      {
-        id: "3",
-        title: "Compound Investments",
-        shortDescription:
-          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
-        subtitle: "",
-        reward: "50 COMP",
-        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
-      },
-      {
-        id: "4",
-        title: "Compound Investments",
-        shortDescription:
-          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
-        subtitle: "",
-        reward: "50 COMP",
-        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
-      },
-    ];
-    const userEnrolledCampaigns = ["1"];
-    if (userEnrolledCampaigns.length > 0) {
-      // merge each campaign with whether the user has already enrolled in that campaign
-      for (let i = 0; i < userEnrolledCampaigns.length; i++) {
-        const userCampaignId = userEnrolledCampaigns[i];
-        for (let j = 0; j < campaignData.length; j++) {
-          const campaignId = campaignData[j].id;
-          if (userCampaignId === campaignId) {
-            campaignData[j].userEnrolled = true;
+  componentDidMount() {
+    axios
+      .get("/api/campaigns")
+      .then((res) => {
+        const campaignData = res.data;
+        const userEnrolledCampaigns = ["1"];
+        if (userEnrolledCampaigns.length > 0) {
+          // merge each campaign with whether the user has already enrolled in that campaign
+          for (let i = 0; i < userEnrolledCampaigns.length; i++) {
+            const userCampaignId = userEnrolledCampaigns[i];
+            for (let j = 0; j < campaignData.length; j++) {
+              const campaignId = campaignData[j]._id;
+              if (userCampaignId === campaignId) {
+                campaignData[j].userEnrolled = true;
+              }
+            }
           }
         }
-      }
-    }
-    this.setState({ campaigns: campaignData });
+        this.setState({ campaigns: campaignData });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
+
   useStyles() {
     return makeStyles((theme) => ({
       root: {
@@ -107,6 +73,7 @@ class NavigationMenu extends React.Component {
   };
 
   onSelectCampaign = (campaign) => {
+    console.log(campaign);
     this.setState({ selectedCampaign: campaign });
   };
 
@@ -130,8 +97,6 @@ class NavigationMenu extends React.Component {
   };
 
   render() {
-    const classes = this.useStyles();
-
     return (
       <div
         style={{
@@ -162,39 +127,7 @@ class NavigationMenu extends React.Component {
           open={!!this.state.selectedCampaign}
           onClose={this.triggerDismissCampaignModal}
           campaign={this.state.selectedCampaign}
-          // modalTitle={this.state.modalCampaignInfo.title}
-          // modalDetails={this.state.modalCampaignInfo.longDescription}
-          // callToAction={this.enroll(this.state.modalCampaignInfo.id)}
-          // callToActionState={this.state.enrolled ? "Claim" : "Enroll"}
         ></CampaignModalDetail>
-        {/* <AppBar position="static">
-          <Toolbar>
-            <Grid justify="space-between" container spacing={24}>
-              <Grid item>
-                <Typography variant="h6" className={classes.title}>
-                  ConsenSys Rewards
-                </Typography>
-              </Grid>
-
-              <Grid item>
-                <OnboardingButton color="inherit">
-                  Connect Wallet
-                </OnboardingButton>
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </AppBar> */}
-
-        {/* <Tabs value={this.state.value} onChange={this.handleChange}>
-          <Tab label="Challenges" {...this.a11yProps(0)} />
-          <Tab label="Achivements" {...this.a11yProps(1)} />
-        </Tabs>
-        <TabPanel value={this.state.value} index={0}>
-          <Protocol campaigns={this.state.campaigns}></Protocol>
-        </TabPanel>
-        <TabPanel value={this.state.value} index={1}>
-          Add Material UI Table
-        </TabPanel> */}
       </div>
     );
   }
