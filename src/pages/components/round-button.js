@@ -69,7 +69,7 @@ const RoundButton = ({
         ...buttonStyle(),
         ...style,
       }}
-    >
+    >   
       {leftIcon && leftIcon}
       {label}
     </div>

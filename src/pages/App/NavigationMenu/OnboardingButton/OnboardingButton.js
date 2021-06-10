@@ -55,7 +55,12 @@ export default function OnboardingButton() {
       onboarding.current.startOnboarding();
     }
   };
+
+  const renderImage = () => {
+    <img style={{ flex: 1 }} src={"green-check.png"} alt={"green-check"}></img>
+  }
+
   return (
-    isDisabled ? <RoundButton type="outline" label={buttonText} onClick={onClick}/> : <RoundButton type="solid" label={buttonText} onClick={onClick} leftIcon="green-check.png"/>
+    isDisabled ? <RoundButton type="outline" label={buttonText} onClick={onClick} leftIcon={renderImage}/> : <RoundButton type="solid" label={buttonText} onClick={onClick}/>
   );
 }

@@ -36,7 +36,7 @@ class CampaignModalDetail extends React.Component {
 
     const campaignTitle = campaign.title || "";
     const description = campaign.longDescription || "";
-
+    const reward = campaign.reward || "";
     return (
       <Dialog
         onClose={this.props.onClose}
@@ -48,30 +48,103 @@ class CampaignModalDetail extends React.Component {
           dividers
           className={classes.root}
           id="customized-dialog-title"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+          }}
         >
-          <Grid justify="space-between" container spacing={24}>
-            <Typography variant="h6">{campaignTitle}</Typography>
+          <div
+            style={{
+              flex: 1,
+              color: "black",
+              fontSize: 25,
+              fontWeight: "700",
+              marginTop: 8,
+            }}
+          >
+            {campaignTitle}
+          </div>
 
-            {this.props.onClose ? (
-              <IconButton
-                aria-label="close"
-                className={classes.closeButton}
-                onClick={this.props.onClose}
-              >
-                <CloseIcon />
-              </IconButton>
-            ) : null}
-          </Grid>
+          <div onClick={this.props.onClose}>
+            <img
+              style={{ flex: 1, height: 32, width: 32 }}
+              src={"dismiss-button.png"}
+              alt={"campaign-card"}
+            ></img>
+          </div>
         </MuiDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
+        
+        <div
+            style={{
+              backgroundColor:'grey',
+              height: 2
+            }}
+        />
+
+        <DialogContent style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: 24,
+            marginRight: 8
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              color: "black",
+              fontSize: 15,
+              fontWeight: "700",
+              marginTop: 8,
+            }}
+          >
+            About
+          </div>
+
+          <div
+            style={{
+              flex: 1,
+              color: "black",
+              fontSize: 13,
+              fontWeight: "400",
+              marginTop: 8,
+            }}
+          >
             To learn more about this protocol, visit:{" "}
             <Link href="https://uniswap.org/about/">About Uniswap</Link>
-          </Typography>
+          </div>
 
-          <Typography gutterBottom>
-            <ReactMarkdown>{description}</ReactMarkdown>
-          </Typography>
+          <div
+            style={{
+              flex: 1,
+              color: "black",
+              fontSize: 15,
+              fontWeight: "700",
+              marginTop: 24,
+            }}
+          >
+            Challenge
+          </div>
+
+          <ReactMarkdown
+            style={{
+              flex: 1,
+              color: "white",
+              fontSize: 15,
+              fontWeight: "700",
+              marginTop: 8,
+            }}
+          >
+            {description}
+          </ReactMarkdown>
+
+          <div style={{ display: "flex" }}>
+            <div style={{ color: "black", fontSize: 13, marginRight: 4 }}>
+              {"Rewards:"}
+            </div>
+            <div style={{ color: "black", fontSize: 13, fontWeight: "800" }}>
+              {reward}
+            </div>
+          </div>
         </DialogContent>
         <DialogContent>
           {/* <RoundButton
