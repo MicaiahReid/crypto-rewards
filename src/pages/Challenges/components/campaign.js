@@ -50,22 +50,22 @@ const Campaign = ({ onSelect, campaign }) => {
         }}
       >
         <div style={{ color: "white", fontSize: 20, fontWeight: "800" }}>
-          {"Uniswap"}
-        </div>
-        <div style={{ color: "white", fontSize: 13 }}>
-          {"Provide Liquidity"}
-        </div>
-        <div style={{ display: "flex" }}>
-          <div style={{ color: "white", fontSize: 13, marginRight: 4 }}>
-            {"Rewards:"}
+        {campaign.title}
           </div>
-          <div style={{ color: "white", fontSize: 13, fontWeight: "800" }}>
-            {"5 UNI"}
+          <div style={{ color: "white", fontSize: 13 }}>
+            {campaign.shortDescription}
           </div>
+          <div style={{ display: "flex" }}>
+            <div style={{ color: "white", fontSize: 13, marginRight: 4 }}>
+              {"Rewards:"}
+            </div>
+            <div style={{ color: "white", fontSize: 13, fontWeight: "800" }}>
+              {campaign.reward}
+            </div>
+          </div>
+          <RoundButton style={{ marginTop: 8 }} label={"Enroll"} />
         </div>
-        <RoundButton style={{ marginTop: 8 }} label={"Enroll"} />
       </div>
-    </div>
   );
 };
 
