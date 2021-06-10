@@ -5,7 +5,8 @@ const routes = require("./routes");
 
 const app = express();
 
-const mongodbUri = process.env.MONGODB_URI || "mongodb://localhost/crypto-rewards";
+const mongodbUri =
+  process.env.MONGODB_URI || "mongodb://localhost/crypto-rewards";
 const options = {
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -17,5 +18,6 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome to Crypto Rewards"));
 app.use("/api/", routes.campaign);
 app.use("/api/", routes.user);
+app.use("/api/", routes.userCampaign);
 
 module.exports = app;
