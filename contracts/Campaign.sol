@@ -19,13 +19,14 @@ contract Campaigns is Escrow {
 
                 
             }
-                struct claim
+                struct claimer
                     {
                         // Declaring different
                         // structure elements
                         address payable claimee;
                         address transaction;
-                        bool verfiiedStatus;
+                        bool claimed;
+
                         
 
                     }
@@ -52,11 +53,12 @@ contract Campaigns is Escrow {
 
                 }
                 
-                function payout() public returns (uint remainingBal) {
+                function payout(string _verification) public returns (uint remainingBal) {
                         // Check enough balance available, otherwise just return balance
-                        if (///verification step here) {
-                        address(this).balance -= withdrawAmount;
+                        if (_verification = string yes && Claimer.claimed = true) {
+                        address(this).balance -= rewardamount;
                         msg.sender.transfer(rewardamount);
+                        //emit reward claimed event here
                     }
 
 
