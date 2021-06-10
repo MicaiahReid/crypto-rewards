@@ -1,15 +1,7 @@
 
 const fs = require("fs");
-const mongoose = require("mongoose");
-
-const { campaign } = require("../models")
-
-const mongodbUri = process.env.MONGODB_URI || "mongodb://localhost/crypto-rewards";
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-};
-mongoose.connect(mongodbUri, options);
+const { campaign } = require("../models");
+require("../db");
 
 const seed = async () => {
   try {

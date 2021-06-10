@@ -1,16 +1,9 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const routes = require("./routes");
+require("./db");
 
 const app = express();
-
-const mongodbUri = process.env.MONGODB_URI || "mongodb://localhost/crypto-rewards";
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-};
-mongoose.connect(mongodbUri, options);
 
 app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome to Crypto Rewards"));
