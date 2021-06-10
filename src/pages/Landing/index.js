@@ -11,9 +11,7 @@ const Landing = () => {
           flexDirection: "column",
           justifyContent: "center",
           paddingBottom: 48,
-          // flex: 1,
           minWidth: 450,
-          // backgroundColor: "blue",
         }}
       >
         <div
@@ -32,14 +30,17 @@ const Landing = () => {
             fontSize: 15,
             color: "#5F6B7C",
             marginBottom: 24,
-            maxWidth: 340,
           }}
         >
           {"Discover ways to start earning rewards by using DeFi."}
         </div>
         <div style={{ display: "flex" }}>
-          <RoundButtom style={{ marginRight: 16 }} label={"Earn Rewards"} />
-          <RoundButtom label={"Earn Rewards"} />
+          <RoundButtom
+            size={"large"}
+            style={{ marginRight: 16 }}
+            label={"Earn Rewards"}
+          />
+          <RoundButtom size={"large"} type={"outline"} label={"Learn More"} />
         </div>
       </div>
     );
@@ -51,9 +52,10 @@ const Landing = () => {
         style={{
           display: "flex",
           flex: 1,
-          // backgroundColor: "green",
           alignItems: "center",
           justifyContent: "center",
+          marginBottom: 48,
+          marginRight: 32,
         }}
       >
         <img
@@ -61,9 +63,8 @@ const Landing = () => {
           alt={"stars"}
           style={{
             width: "100%",
-            minWidth: 260,
-            maxWidth: 400,
-            // backgroundColor: "red",
+            maxWidth: 500,
+            minWidth: 400,
           }}
         />
       </div>
@@ -78,8 +79,8 @@ const Landing = () => {
         right: 0,
         bottom: 0,
         top: 0,
-        backgroundColor: "white",
-        padding: "0px 32px",
+        background: `radial-gradient(#f2f7ff, white)`,
+        padding: "0px 5%",
         display: "flex",
         flexDirection: "column",
       }}

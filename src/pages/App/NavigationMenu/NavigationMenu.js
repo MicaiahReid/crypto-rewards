@@ -102,7 +102,11 @@ class NavigationMenu extends React.Component {
     const classes = this.useStyles();
 
     return (
-      <div style={{ padding: "0px 32px" }}>
+      <div
+        style={{
+          padding: "0px 32px",
+        }}
+      >
         <Header
           rightComponent={
             <OnboardingButton/>
