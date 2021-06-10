@@ -119,7 +119,12 @@ class NavigationMenu extends React.Component {
     const classes = this.useStyles();
 
     return (
-      <div style={{ padding: "0px 32px" }}>
+      <div
+        style={{
+          padding: "0px 32px",
+          background: `radial-gradient(#f2f7ff, white)`,
+        }}
+      >
         <Header
           rightComponent={
             <RoundButton label={"Connect Wallet"} onPress={() => {}} />
