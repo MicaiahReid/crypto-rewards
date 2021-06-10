@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import Header from "../components/header";
 import RoundButtom from "../components/round-button";
 
-const Landing = () => {
+const Landing = ({ onDismiss }) => {
   const renderDescriptionSection = useCallback(() => {
     return (
       <div
@@ -19,11 +19,11 @@ const Landing = () => {
             fontSize: 44,
             fontWeight: "800",
             marginBottom: 12,
-            maxWidth: 400,
+            maxWidth: 500,
             lineHeight: 1.2,
           }}
         >
-          {"Get rewarded by using Defi."}
+          {"Get rewarded by using decentralized apps."}
         </div>
         <div
           style={{
@@ -32,19 +32,20 @@ const Landing = () => {
             marginBottom: 24,
           }}
         >
-          {"Discover ways to start earning rewards by using DeFi."}
+          {"Discover ways to start earning rewards by using Dapps."}
         </div>
         <div style={{ display: "flex" }}>
           <RoundButtom
             size={"large"}
             style={{ marginRight: 16 }}
             label={"Earn Rewards"}
+            onPress={onDismiss}
           />
           <RoundButtom size={"large"} type={"outline"} label={"Learn More"} />
         </div>
       </div>
     );
-  }, []);
+  }, [onDismiss]);
 
   const renderImageSection = useCallback(() => {
     return (

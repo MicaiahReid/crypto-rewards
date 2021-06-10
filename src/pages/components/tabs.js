@@ -47,6 +47,7 @@ const Tabs = ({ selectedIndex, tabs, onSelectIndex }) => {
       style={{
         display: "flex",
         flex: 1,
+        marginBottom: 16,
       }}
     >
       {renderTabs()}

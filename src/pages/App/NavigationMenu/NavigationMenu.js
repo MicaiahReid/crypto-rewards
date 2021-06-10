@@ -44,7 +44,25 @@ class NavigationMenu extends React.Component {
         subtitle: "",
         reward: "50 COMP",
         longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
-      }
+      },
+      {
+        id: "3",
+        title: "Compound Investments",
+        shortDescription:
+          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
+        subtitle: "",
+        reward: "50 COMP",
+        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
+      },
+      {
+        id: "4",
+        title: "Compound Investments",
+        shortDescription:
+          "Put 50 COMP in a compound liquidity pool for 3 months and earn COMP rewards!",
+        subtitle: "",
+        reward: "50 COMP",
+        longDescription: `### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!`,
+      },
     ];
     const userEnrolledCampaigns = ["1"];
     if (userEnrolledCampaigns.length > 0) {
@@ -106,11 +124,7 @@ class NavigationMenu extends React.Component {
           padding: "0px 32px",
         }}
       >
-        <Header
-          rightComponent={
-            <OnboardingButton/>
-          }
-        />
+        <Header rightComponent={<OnboardingButton />} />
         <div
           style={{
             position: "static",
@@ -127,7 +141,9 @@ class NavigationMenu extends React.Component {
           />
         </div>
         {this.renderPage()}
-        {/* <Landing /> */}
+        {this.state.isHome ? (
+          <Landing onDismiss={() => this.setState({ isHome: false })} />
+        ) : null}
         {/* <AppBar position="static">
           <Toolbar>
             <Grid justify="space-between" container spacing={24}>
