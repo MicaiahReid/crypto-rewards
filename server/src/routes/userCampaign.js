@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const controllers = require("../controllers");
 
-router.route("/campaigns").get(controllers.campaign.index);
+router.route("/enroll").post(controllers.userCampaign.enroll);
 
 module.exports = router;
