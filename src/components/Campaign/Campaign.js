@@ -1,25 +1,23 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ReactMarkdown from 'react-markdown';
-
+import ReactMarkdown from "react-markdown";
 
 class Campaign extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: false,
-      enrolled: props.campaign.userEnrolled
-    }
+    };
   }
   useStyles() {
     return makeStyles((theme) => ({
@@ -62,8 +60,8 @@ class Campaign extends React.Component {
   }
   handleExpandClick() {
     this.setState({
-      expanded: !this.state.expanded
-    })
+      expanded: !this.state.expanded,
+    });
   }
   render() {
     const campaign = this.props.campaign;
@@ -101,7 +99,9 @@ class Campaign extends React.Component {
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                <ReactMarkdown children={campaign.longDescription}></ReactMarkdown>
+                <ReactMarkdown
+                  children={campaign.longDescription}
+                ></ReactMarkdown>
               </Typography>
             </CardContent>
           </Collapse>
@@ -111,10 +111,18 @@ class Campaign extends React.Component {
               colot="primary"
               variant="contained"
             >
-              {this.state.enrolled ? "Verify" : "Enroll"}
+              {campaign.status === "claimed"
+                ? "Claimed"
+                : campaign.status === "enrolled"
+                ? "Claim"
+                : "Enroll"}
             </Button>
             <IconButton
-              className={classes.expand + classes.expandOpen ? +" " + this.state.expanded : ""}
+              className={
+                classes.expand + classes.expandOpen
+                  ? +" " + this.state.expanded
+                  : ""
+              }
               onClick={(e) => this.handleExpandClick()}
               aria-expanded={this.state.expanded}
               aria-label="show more"
