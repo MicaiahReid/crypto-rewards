@@ -7,12 +7,14 @@ import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Protocol from "../../Protocol/Protocol";
+import Achievements from "../../Achievements/Achievements";
 import OnboardingButton from "./OnboardingButton/OnboardingButton";
 import TabPanel from "./TabPanel/TabPanel";
 import CustomTabs from "../../components/tabs";
 import Header from "../../components/header";
 import RoundButton from "../../components/round-button";
 import Landing from "../../Landing";
+
 
 class NavigationMenu extends React.Component {
   constructor(props) {
@@ -91,7 +93,7 @@ class NavigationMenu extends React.Component {
       case 0:
         return <Protocol campaigns={this.state.campaigns}></Protocol>;
       case 1:
-        return <div>{"Add Material UI Table"}</div>;
+        return <Achievements campaigns={this.state.campaigns}></Achievements>;
       default:
         return <div>{`Page doesn't exist`}</div>;
     }
@@ -123,7 +125,7 @@ class NavigationMenu extends React.Component {
           />
         </div>
         {this.renderPage()}
-        <Landing />
+        {/* <Landing /> */}
         {/* <AppBar position="static">
           <Toolbar>
             <Grid justify="space-between" container spacing={24}>
