@@ -1,44 +1,41 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Campaign from '../../Campaign/Campaign';
-import OnboardingButton from './OnboardingButton/OnboardingButton';
-import TabPanel from './TabPanel/TabPanel';
-const axios = require("axios").default;
-axios.defaults.baseURL = "http://localhost:3001";
-axios.defaults.headers.post["Content-Type"] = "application/json";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Campaign from "../../Campaign/Campaign";
+import OnboardingButton from "./OnboardingButton/OnboardingButton";
+import TabPanel from "./TabPanel/TabPanel";
+import axios from "../../../utils/API";
+import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
 
 class NavigationMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      campaigns: []
+      campaigns: [],
     };
   }
   componentDidMount() {
-    axios
-      .get("/api/campaigns")
-      .then((res) => {
-        const campaignData = res.data;
-        const userEnrolledCampaigns = ["1"];
-        if (userEnrolledCampaigns.length > 0) {
-          // merge each campaign with whether the user has already enrolled in that campaign
-          for (let i = 0; i < userEnrolledCampaigns.length; i++) {
-            const userCampaignId = userEnrolledCampaigns[i];
-            for (let j = 0; j < campaignData.length; j++) {
-              const campaignId = campaignData[j]._id;
-              if (userCampaignId === campaignId) {
-                campaignData[j].userEnrolled = true;
-              }
-            }
-          }
+    getConnectedPublicAddress()
+      .then((accounts) => {
+        let getPath = "/api/campaigns";
+        if (accounts.length > 0) {
+          getPath += "/" + accounts[0];
         }
-        this.setState({ campaigns: campaignData });
+        console.log(getPath);
+        axios
+          .get(getPath)
+          .then((res) => {
+            console.log(res.data);
+            this.setState({ campaigns: res.data });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);
