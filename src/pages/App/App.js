@@ -1,5 +1,5 @@
-import React from 'react';
-import NavigationMenu from './NavigationMenu/NavigationMenu';
+import React from "react";
+import NavigationMenu from "./NavigationMenu/NavigationMenu";
 
 function App() {
   return (

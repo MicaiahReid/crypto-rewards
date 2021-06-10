@@ -122,7 +122,6 @@ class NavigationMenu extends React.Component {
       <div
         style={{
           padding: "0px 32px",
-          background: `radial-gradient(#f2f7ff, white)`,
         }}
       >
         <Header
@@ -146,7 +145,7 @@ class NavigationMenu extends React.Component {
           />
         </div>
         {this.renderPage()}
-        <Landing />
+        {/* <Landing /> */}
         {/* <AppBar position="static">
           <Toolbar>
             <Grid justify="space-between" container spacing={24}>

@@ -11,9 +11,7 @@ const Landing = () => {
           flexDirection: "column",
           justifyContent: "center",
           paddingBottom: 48,
-          // flex: 1,
           minWidth: 450,
-          // backgroundColor: "blue",
         }}
       >
         <div
