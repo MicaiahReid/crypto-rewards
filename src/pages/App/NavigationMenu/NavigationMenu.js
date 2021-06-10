@@ -1,24 +1,31 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Protocol from '../../Protocol/Protocol';
-import OnboardingButton from './OnboardingButton/OnboardingButton';
-import TabPanel from './TabPanel/TabPanel';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Protocol from "../../Protocol/Protocol";
+import OnboardingButton from "./OnboardingButton/OnboardingButton";
+import TabPanel from "./TabPanel/TabPanel";
+import CustomTabs from "../../components/tabs";
+import Header from "../../components/header";
+import RoundButton from "../../components/round-button";
+import Landing from "../../Landing";
 
 class NavigationMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      campaigns: []
+      campaigns: [],
+      selectedTabIndex: 0,
+      isHome: true,
     };
   }
-  componentDidMount() { // will use for initial fetching of data
+  componentDidMount() {
+    // will use for initial fetching of data
     let campaignData = [
       {
         id: "1",
@@ -58,12 +65,13 @@ class NavigationMenu extends React.Component {
       },
     ];
     const userEnrolledCampaigns = ["1"];
-    if(userEnrolledCampaigns.length > 0) { // merge each campaign with whether the user has already enrolled in that campaign
-      for(let i = 0; i < userEnrolledCampaigns.length; i++) {
+    if (userEnrolledCampaigns.length > 0) {
+      // merge each campaign with whether the user has already enrolled in that campaign
+      for (let i = 0; i < userEnrolledCampaigns.length; i++) {
         const userCampaignId = userEnrolledCampaigns[i];
-        for(let j = 0; j < campaignData.length; j++) {
-          const campaignId = campaignData[j].id
-          if(userCampaignId === campaignId) {
+        for (let j = 0; j < campaignData.length; j++) {
+          const campaignId = campaignData[j].id;
+          if (userCampaignId === campaignId) {
             campaignData[j].userEnrolled = true;
           }
         }
@@ -95,18 +103,48 @@ class NavigationMenu extends React.Component {
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
   };
+
+  renderPage = () => {
+    switch (this.state.selectedTabIndex) {
+      case 0:
+        return <Protocol campaigns={this.state.campaigns}></Protocol>;
+      case 1:
+        return <div>{"Add Material UI Table"}</div>;
+      default:
+        return <div>{`Page doesn't exist`}</div>;
+    }
+  };
+
   render() {
     const classes = this.useStyles();
 
     return (
-      <>
-        <AppBar position="static">
+      <div style={{ padding: "0px 32px" }}>
+        <Header
+          rightComponent={
+            <RoundButton label={"Connect Wallet"} onPress={() => {}} />
+          }
+        />
+        <div
+          style={{
+            position: "static",
+            display: "flex",
+            padding: "12px 0px",
+          }}
+        >
+          <CustomTabs
+            selectedIndex={this.state.selectedTabIndex}
+            onSelectIndex={(index) =>
+              this.setState({ selectedTabIndex: index })
+            }
+            tabs={["Challenges", "Rewards"]}
+          />
+        </div>
+        {this.renderPage()}
+        <Landing />
+        {/* <AppBar position="static">
           <Toolbar>
-            <Grid
-            justify="space-between"
-            container 
-            spacing={24}
-            >
+            <Grid justify="space-between" container spacing={24}>
               <Grid item>
                 <Typography variant="h6" className={classes.title}>
                   ConsenSys Rewards
@@ -114,24 +152,26 @@ class NavigationMenu extends React.Component {
               </Grid>
 
               <Grid item>
-                <OnboardingButton color="inherit">Connect Wallet</OnboardingButton>
+                <OnboardingButton color="inherit">
+                  Connect Wallet
+                </OnboardingButton>
               </Grid>
             </Grid>
           </Toolbar>
-        </AppBar>
-        
-          <Tabs value={this.state.value} onChange={this.handleChange}>
-            <Tab label="Challenges" {...this.a11yProps(0)} />
-            <Tab label="Achivements" {...this.a11yProps(1)} />
-          </Tabs>
+        </AppBar> */}
+
+        {/* <Tabs value={this.state.value} onChange={this.handleChange}>
+          <Tab label="Challenges" {...this.a11yProps(0)} />
+          <Tab label="Achivements" {...this.a11yProps(1)} />
+        </Tabs>
 
         <TabPanel value={this.state.value} index={0}>
           <Protocol campaigns={this.state.campaigns}></Protocol>
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
           Add Material UI Table
-        </TabPanel>
-      </>
+        </TabPanel> */}
+      </div>
     );
   }
 }
