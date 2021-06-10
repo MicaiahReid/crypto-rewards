@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Protocol from '../../Protocol/Protocol';
 import OnboardingButton from './OnboardingButton/OnboardingButton';
 import TabPanel from './TabPanel/TabPanel';
-import Achievements from  '../Achievements/Achievements';
+import Achievements from  '../../Achievements/Achievements';
 class NavigationMenu extends React.Component {
   constructor(props) {
     super(props);

@@ -7,7 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Button from '@material-ui/core/Button';
 class Achievements extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +36,7 @@ class Achievements extends React.Component {
                     <TableCell align="right">Challenge</TableCell>
                     <TableCell align="right">Reward</TableCell>
                     <TableCell align="right">Status</TableCell>
+                    <TableCell align="right"></TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -46,6 +48,11 @@ class Achievements extends React.Component {
                     <TableCell align="right">{row.shortDescription}</TableCell>
                     <TableCell align="right">{row.reward}</TableCell>
                     <TableCell align="right">{row.id}</TableCell>
+                    <TableCell align="right">
+                        <Button>
+                            <ChevronRightIcon></ChevronRightIcon>
+                        </Button>
+                    </TableCell>
                     </TableRow>
                 ))}
                 </TableBody>
