@@ -1,33 +1,25 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Protocol from "../../Challenges";
 import Achievements from "../../Rewards";
 import OnboardingButton from "./OnboardingButton/OnboardingButton";
-import TabPanel from "./TabPanel/TabPanel";
 import CustomTabs from "../../components/tabs";
 import Header from "../../components/header";
 import Landing from "../../Landing";
 import CampaignModalDetail from "../../CampaignModalDetail";
+import { animated, useSpring } from "@react-spring/web";
 
-class NavigationMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 0,
-      campaigns: [],
-      selectedTabIndex: 0,
-      showHome: true,
-      selectedCampaign: undefined,
-    };
-  }
-  async componentDidMount() {
-    // will use for initial fetching of data
+const NavigationMenu = () => {
+  const [campaigns, setCampaigns] = useState([]);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [showHome, setShowHome] = useState(true);
+  const [selectedCampaign, setSelectedCampaign] = useState(undefined);
+  const [fadeStyle, fadeApi] = useSpring(() => ({
+    opacity: 1,
+    onRest: () => setShowHome(false),
+  }));
+
+  useEffect(() => {
     let campaignData = [
       {
         id: "1",
@@ -79,125 +71,73 @@ class NavigationMenu extends React.Component {
         }
       }
     }
-    this.setState({ campaigns: campaignData });
-  }
-  useStyles() {
-    return makeStyles((theme) => ({
-      root: {
-        flexGrow: 1,
-      },
-      menuButton: {
-        flexGrow: 2,
-        marginRight: theme.spacing(2),
-      },
-      title: {
-        flexGrow: 1,
-        marginLeft: theme.spacing(1),
-      },
-    }));
-  }
-  a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-  handleChange = (event, newValue) => {
-    this.setState({ value: newValue });
-  };
+    setCampaigns(campaignData);
+  }, [setCampaigns]);
 
-  onSelectCampaign = (campaign) => {
-    this.setState({ selectedCampaign: campaign });
-  };
+  const triggerDismissCampaignModal = useCallback(
+    () => setSelectedCampaign(undefined),
+    [setSelectedCampaign]
+  );
 
-  triggerDismissCampaignModal = () =>
-    this.setState({ selectedCampaign: undefined });
-
-  renderPage = () => {
-    switch (this.state.selectedTabIndex) {
+  const renderPages = useCallback(() => {
+    switch (selectedTabIndex) {
       case 0:
         return (
           <Protocol
-            onSelectCampaign={this.onSelectCampaign}
-            campaigns={this.state.campaigns}
+            onSelectCampaign={setSelectedCampaign}
+            campaigns={campaigns}
           ></Protocol>
         );
       case 1:
-        return <Achievements campaigns={this.state.campaigns}></Achievements>;
+        return <Achievements campaigns={campaigns}></Achievements>;
       default:
         return <div>{`Page doesn't exist`}</div>;
     }
-  };
+  }, [selectedTabIndex, campaigns]);
 
-  render() {
-    const classes = this.useStyles();
+  const renderLanding = useCallback(() => {
+    return showHome ? (
+      <animated.div style={fadeStyle}>
+        <Landing onDismiss={() => fadeApi.start({ opacity: 0 })} />
+      </animated.div>
+    ) : null;
+  }, [showHome, fadeApi, fadeStyle]);
 
+  const renderCampaignModal = useCallback(() => {
     return (
+      <CampaignModalDetail
+        open={!!selectedCampaign}
+        onClose={triggerDismissCampaignModal}
+        campaign={selectedCampaign}
+      ></CampaignModalDetail>
+    );
+  }, [selectedCampaign, triggerDismissCampaignModal]);
+
+  return (
+    <div
+      style={{
+        padding: "0px 5%",
+      }}
+    >
+      <Header rightComponent={<OnboardingButton />} />
       <div
         style={{
-          padding: "0px 32px",
+          position: "static",
+          display: "flex",
+          padding: "12px 0px",
         }}
       >
-        <Header rightComponent={<OnboardingButton />} />
-        <div
-          style={{
-            position: "static",
-            display: "flex",
-            padding: "12px 0px",
-          }}
-        >
-          <CustomTabs
-            selectedIndex={this.state.selectedTabIndex}
-            onSelectIndex={(index) =>
-              this.setState({ selectedTabIndex: index })
-            }
-            tabs={["Challenges", "Rewards"]}
-          />
-        </div>
-        {this.renderPage()}
-        {this.state.showHome ? (
-          <Landing onDismiss={() => this.setState({ showHome: false })} />
-        ) : null}
-        <CampaignModalDetail
-          open={!!this.state.selectedCampaign}
-          onClose={this.triggerDismissCampaignModal}
-          campaign={this.state.selectedCampaign}
-          // modalTitle={this.state.modalCampaignInfo.title}
-          // modalDetails={this.state.modalCampaignInfo.longDescription}
-          // callToAction={this.enroll(this.state.modalCampaignInfo.id)}
-          // callToActionState={this.state.enrolled ? "Claim" : "Enroll"}
-        ></CampaignModalDetail>
-        {/* <AppBar position="static">
-          <Toolbar>
-            <Grid justify="space-between" container spacing={24}>
-              <Grid item>
-                <Typography variant="h6" className={classes.title}>
-                  ConsenSys Rewards
-                </Typography>
-              </Grid>
-
-              <Grid item>
-                <OnboardingButton color="inherit">
-                  Connect Wallet
-                </OnboardingButton>
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </AppBar> */}
-
-        {/* <Tabs value={this.state.value} onChange={this.handleChange}>
-          <Tab label="Challenges" {...this.a11yProps(0)} />
-          <Tab label="Achivements" {...this.a11yProps(1)} />
-        </Tabs>
-        <TabPanel value={this.state.value} index={0}>
-          <Protocol campaigns={this.state.campaigns}></Protocol>
-        </TabPanel>
-        <TabPanel value={this.state.value} index={1}>
-          Add Material UI Table
-        </TabPanel> */}
+        <CustomTabs
+          selectedIndex={selectedTabIndex}
+          onSelectIndex={setSelectedTabIndex}
+          tabs={["Challenges", "Rewards"]}
+        />
       </div>
-    );
-  }
-}
+      {renderPages()}
+      {renderLanding()}
+      {renderCampaignModal()}
+    </div>
+  );
+};
 
 export default NavigationMenu;
