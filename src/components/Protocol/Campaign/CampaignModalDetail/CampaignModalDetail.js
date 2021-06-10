@@ -11,15 +11,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Link from '@material-ui/core/Link';
 
 class CampaignModalDetail extends React.Component {
-    constructor(props) {
-        super(props)
-        this.props = {
-            modalTitle: props.modalTitle,
-            modalDetails: props.modalDetails,
-            open: props.open,
-            onClose: props.onClose
-        }
-    }
 
     useStyles() {
         return makeStyles((theme) => ({

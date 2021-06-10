@@ -47,10 +47,9 @@ class Campaign extends React.Component {
   }
 
   handleClick = (item) => {
-    if("card_button" === item.target.offsetParent.id)
-      this.setState({
-        displayModal: true
-      })
+    this.setState({
+      displayModal: true
+    })
   };
 
   handleClose = () => {
@@ -67,24 +66,25 @@ class Campaign extends React.Component {
       <Box className={classes.root}>
         <Card className={classes.card}>
           <ButtonBase id="card_button" onClick={(e) => {this.handleClick(e)}}>
-            <Grid container spacing={12} align='left' justify='flex-end' direction='column' alignItems="stretch">
-              <Grid item sx={4}>
-                <Typography variant="h" component="h2">
+            <Grid container spacing={8} align='left' justify='flex-end' direction='column' alignItems="stretch">
+              <Grid item sx={2}>
+                <Typography variant="h4" component="h2">
                   {campaign.title}
                 </Typography>
               </Grid>
-              <Grid item sx={4}>
-                <Typography variant="body" component="p">
+              <Grid item sx={2}>
+                <Typography variant="body1" component="p">
                   {campaign.shortDescription}
                 </Typography>
               </Grid>
-              <Grid item sx={4}>
-                <Typography variant="body">
+              <Grid item sx={2}>
+                <Typography variant="body1">
                   Reward: <b>{campaign.reward}</b>
                 </Typography>
               </Grid>
-              <Grid item sx={4}>
-              <CardActions>
+          </Grid>
+          </ButtonBase>
+          <CardActions>
                 <Button
                   onClick={(e) => this.enroll(campaign.id)}
                   colot="primary"
@@ -94,9 +94,6 @@ class Campaign extends React.Component {
                   {this.state.enrolled ? "Verify" : "Enroll"}
                 </Button>
               </CardActions>
-            </Grid>
-          </Grid>
-          </ButtonBase>
         </Card>
         <CampaignModalDetail 
           open={open} 
