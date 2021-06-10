@@ -16,5 +16,6 @@ mongoose.connect(mongodbUri, options);
 app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome to Crypto Rewards"));
 app.use("/api/", routes.campaign);
+app.use("/api/", routes.user);
 
 module.exports = app;
