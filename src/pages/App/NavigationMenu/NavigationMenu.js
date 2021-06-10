@@ -6,13 +6,14 @@ import Tab from "@material-ui/core/Tab";
 import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Protocol from "../../Protocol";
-import Achievements from "../../Achievements";
+import Protocol from "../../Challenges";
+import Achievements from "../../Rewards";
 import OnboardingButton from "./OnboardingButton/OnboardingButton";
 import TabPanel from "./TabPanel/TabPanel";
 import CustomTabs from "../../components/tabs";
 import Header from "../../components/header";
 import Landing from "../../Landing";
+import CampaignModalDetail from "../../CampaignModalDetail";
 
 class NavigationMenu extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class NavigationMenu extends React.Component {
       value: 0,
       campaigns: [],
       selectedTabIndex: 0,
-      isHome: true,
+      showHome: true,
+      selectedCampaign: undefined,
     };
   }
   async componentDidMount() {
@@ -104,10 +106,22 @@ class NavigationMenu extends React.Component {
     this.setState({ value: newValue });
   };
 
+  onSelectCampaign = (campaign) => {
+    this.setState({ selectedCampaign: campaign });
+  };
+
+  triggerDismissCampaignModal = () =>
+    this.setState({ selectedCampaign: undefined });
+
   renderPage = () => {
     switch (this.state.selectedTabIndex) {
       case 0:
-        return <Protocol campaigns={this.state.campaigns}></Protocol>;
+        return (
+          <Protocol
+            onSelectCampaign={this.onSelectCampaign}
+            campaigns={this.state.campaigns}
+          ></Protocol>
+        );
       case 1:
         return <Achievements campaigns={this.state.campaigns}></Achievements>;
       default:
@@ -141,9 +155,18 @@ class NavigationMenu extends React.Component {
           />
         </div>
         {this.renderPage()}
-        {this.state.isHome ? (
-          <Landing onDismiss={() => this.setState({ isHome: false })} />
+        {this.state.showHome ? (
+          <Landing onDismiss={() => this.setState({ showHome: false })} />
         ) : null}
+        <CampaignModalDetail
+          open={!!this.state.selectedCampaign}
+          onClose={this.triggerDismissCampaignModal}
+          campaign={this.state.selectedCampaign}
+          // modalTitle={this.state.modalCampaignInfo.title}
+          // modalDetails={this.state.modalCampaignInfo.longDescription}
+          // callToAction={this.enroll(this.state.modalCampaignInfo.id)}
+          // callToActionState={this.state.enrolled ? "Claim" : "Enroll"}
+        ></CampaignModalDetail>
         {/* <AppBar position="static">
           <Toolbar>
             <Grid justify="space-between" container spacing={24}>
