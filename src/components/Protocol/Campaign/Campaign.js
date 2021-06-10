@@ -43,13 +43,14 @@ class Campaign extends React.Component {
   }
 
   enroll(id) {
-    console.log(id);
+    // console.log(id);
   }
 
-  handleClick = (event) => {
-    this.setState({
-      displayModal: true
-    })
+  handleClick = (item) => {
+    if("card_button" === item.target.offsetParent.id)
+      this.setState({
+        displayModal: true
+      })
   };
 
   handleClose = () => {
@@ -65,34 +66,37 @@ class Campaign extends React.Component {
     return (
       <Box className={classes.root}>
         <Card className={classes.card}>
-          <ButtonBase onClick={event => {this.handleClick()}}>
-            <Grid container spacing={24} align="left" direction="column">
-              <Grid item sx={3}>
+          <ButtonBase id="card_button" onClick={(e) => {this.handleClick(e)}}>
+            <Grid container spacing={12} align='left' justify='flex-end' direction='column' alignItems="stretch">
+              <Grid item sx={4}>
                 <Typography variant="h" component="h2">
                   {campaign.title}
                 </Typography>
               </Grid>
-              <Grid item sx={3}>
+              <Grid item sx={4}>
                 <Typography variant="body" component="p">
                   {campaign.shortDescription}
                 </Typography>
               </Grid>
-              <Grid item sx={3}>
+              <Grid item sx={4}>
                 <Typography variant="body">
                   Reward: <b>{campaign.reward}</b>
                 </Typography>
               </Grid>
+              <Grid item sx={4}>
+              <CardActions>
+                <Button
+                  onClick={(e) => this.enroll(campaign.id)}
+                  colot="primary"
+                  variant="contained"
+                  id="enroll_button"
+                >
+                  {this.state.enrolled ? "Verify" : "Enroll"}
+                </Button>
+              </CardActions>
             </Grid>
+          </Grid>
           </ButtonBase>
-          <CardActions>
-            <Button
-              onClick={(e) => this.enroll(campaign.id)}
-              colot="primary"
-              variant="contained"
-            >
-              {this.state.enrolled ? "Verify" : "Enroll"}
-            </Button>
-          </CardActions>
         </Card>
         <CampaignModalDetail 
           open={open} 
