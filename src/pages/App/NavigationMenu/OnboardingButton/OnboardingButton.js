@@ -1,10 +1,9 @@
 import MetaMaskOnboarding from '@metamask/onboarding';
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import RoundButton from "../../../components/round-button";
 
 const ONBOARD_TEXT = 'Click here to install MetaMask!';
 const CONNECT_TEXT = 'Connect';
-const CONNECTED_TEXT = 'Connected';
 
 export default function OnboardingButton() {
   const [buttonText, setButtonText] = React.useState(ONBOARD_TEXT);
@@ -21,7 +20,7 @@ export default function OnboardingButton() {
   React.useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
       if (accounts.length > 0) {
-        setButtonText(CONNECTED_TEXT);
+        setButtonText(accounts[0].slice(0,6)+'...' + accounts[0].slice(accounts[0].length-4,accounts[0].length));
         setDisabled(true);
         onboarding.current.stopOnboarding();
       } else {
@@ -56,8 +55,6 @@ export default function OnboardingButton() {
     }
   };
   return (
-    <Button color="inherit" disabled={isDisabled} onClick={onClick}>
-      {buttonText}
-    </Button>
+    <RoundButton disabled={isDisabled} label={buttonText} onClick={onClick}/>
   );
 }

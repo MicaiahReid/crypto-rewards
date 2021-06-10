@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 import Link from '@material-ui/core/Link';
+import RoundButton from "../../../components/round-button";
 
 class CampaignModalDetail extends React.Component {
 
@@ -50,6 +51,12 @@ class CampaignModalDetail extends React.Component {
                         <ReactMarkdown>{this.props.modalDetails}</ReactMarkdown>
                     </Typography>
                 </DialogContent>
+                <DialogContent>
+                    <RoundButton
+                    onClick={(e) => this.props.callToAction}
+                    label={this.props.callToActionState}
+                    />
+                </DialogContent>    
             </Dialog>
         );
     }

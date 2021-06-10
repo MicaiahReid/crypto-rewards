@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Button from '@material-ui/core/Button';
+import RoundButton from "../components/round-button";
+
 class Achievements extends React.Component {
     constructor(props) {
         super(props);
@@ -47,7 +49,7 @@ class Achievements extends React.Component {
                     </TableCell>
                     <TableCell align="right">{row.shortDescription}</TableCell>
                     <TableCell align="right">{row.reward}</TableCell>
-                    <TableCell align="right">{row.id}</TableCell>
+                    <TableCell align="right">{<RoundButton label="Claimed"/>}</TableCell>
                     <TableCell align="right">
                         <Button>
                             <ChevronRightIcon></ChevronRightIcon>

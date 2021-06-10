@@ -12,7 +12,6 @@ import OnboardingButton from "./OnboardingButton/OnboardingButton";
 import TabPanel from "./TabPanel/TabPanel";
 import CustomTabs from "../../components/tabs";
 import Header from "../../components/header";
-import RoundButton from "../../components/round-button";
 import Landing from "../../Landing";
 
 
@@ -106,7 +105,7 @@ class NavigationMenu extends React.Component {
       <div style={{ padding: "0px 32px" }}>
         <Header
           rightComponent={
-            <RoundButton label={"Connect Wallet"} onPress={() => {}} />
+            <OnboardingButton/>
           }
         />
         <div

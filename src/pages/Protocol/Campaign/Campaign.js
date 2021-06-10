@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from "@material-ui/core/CardActions";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import RoundButton from "../../components/round-button";
 import Box from '@material-ui/core/Box';
 import CampaignModalDetail from './CampaignModalDetail/CampaignModalDetail';
 import ButtonBase from  '@material-ui/core/ButtonBase';
@@ -85,14 +85,11 @@ class Campaign extends React.Component {
           </Grid>
           </ButtonBase>
           <CardActions>
-                <Button
+                <RoundButton
                   onClick={(e) => this.enroll(campaign.id)}
-                  colot="primary"
-                  variant="contained"
+                  label={this.state.enrolled ? "Claim" : "Enroll"}
                   id="enroll_button"
-                >
-                  {this.state.enrolled ? "Verify" : "Enroll"}
-                </Button>
+                />
               </CardActions>
         </Card>
         <CampaignModalDetail 
@@ -100,6 +97,8 @@ class Campaign extends React.Component {
           onClose={this.handleClose} 
           modalTitle={campaign.title}
           modalDetails={campaign.longDescription}
+          callToAction={this.enroll(campaign.id)}
+          callToActionState={this.state.enrolled ? "Claim" : "Enroll"}
         >
         </CampaignModalDetail>
       </Box>
