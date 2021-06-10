@@ -35,10 +35,10 @@ class Achievements extends React.Component {
                 <TableHead>
                 <TableRow>
                     <TableCell>Protocol</TableCell>
-                    <TableCell align="right">Challenge</TableCell>
-                    <TableCell align="right">Reward</TableCell>
-                    <TableCell align="right">Status</TableCell>
-                    <TableCell align="right"></TableCell>
+                    <TableCell>Challenge</TableCell>
+                    <TableCell>Reward</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell></TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -47,10 +47,10 @@ class Achievements extends React.Component {
                     <TableCell component="th" scope="row">
                         {row.title}
                     </TableCell>
-                    <TableCell align="right">{row.shortDescription}</TableCell>
-                    <TableCell align="right">{row.reward}</TableCell>
-                    <TableCell align="right">{<RoundButton label="Claimed"/>}</TableCell>
-                    <TableCell align="right">
+                    <TableCell>{row.shortDescription}</TableCell>
+                    <TableCell>{row.reward}</TableCell>
+                    <TableCell>{<RoundButton label="Claimed"/>}</TableCell>
+                    <TableCell>
                         <Button>
                             <ChevronRightIcon></ChevronRightIcon>
                         </Button>
