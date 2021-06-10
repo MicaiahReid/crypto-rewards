@@ -5,7 +5,7 @@ require("../db");
 
 const seed = async () => {
   try {
-    const path = "src/scripts/campaign";
+    const path = "src/scripts/data/campaign";
     const files = await fs.promises.readdir(path);
     for (const file of files) {
       const fileBuffer = await fs.promises.readFile(`${path}/${file}`);
