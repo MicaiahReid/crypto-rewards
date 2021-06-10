@@ -15,7 +15,7 @@ contract Campaigns is Escrow {
             uint startdate = 0;
             uint enddate = 0;
             
-            constructor(uint _rewardunit uint _startdate uint _endate){
+            constructor(uint _rewardunit, uint _startdate, uint _endate){
                 owner = msg.sender;
                 _rewardunit = rewardunit;
                 _startdate = startdate;
@@ -52,7 +52,7 @@ contract Campaigns is Escrow {
                         //create mappings for campapign that has campapign id and campapign contract addresses
                         //deposit function that creates a new contract instance for the protocol
                         //deposit function should also set msg.sender as owner of new contract
-                     emit Deposited(campaignID, payoutAmount);
+                     emit Deposited( payoutAmount);
 
                 }
 
@@ -62,7 +62,7 @@ contract Campaigns is Escrow {
                     }
 
 
-                function payout(string _verification uint256 _transaction) public {
+                function payout(string _verification, uint256 _transaction) public {
                         // Check enough balance available, otherwise just return balance
                         if (_verification = string yes && Claimer.claimed = false) {
                         claimees[msg.sender].Claimer.claimed = true;
