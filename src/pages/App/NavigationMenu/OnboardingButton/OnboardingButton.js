@@ -1,3 +1,4 @@
+import { Icon } from '@material-ui/core';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import React from 'react';
 import RoundButton from "../../../components/round-button";
@@ -55,9 +56,6 @@ export default function OnboardingButton() {
     }
   };
   return (
-    isDisabled ?
-      <RoundButton type="outline" label={buttonText} onClick={onClick}/> :       
-      <RoundButton type="solid" label={buttonText} onClick={onClick}/>
-
+    isDisabled ? <RoundButton type="outline" label={buttonText} onClick={onClick}/> : <RoundButton type="solid" label={buttonText} onClick={onClick} leftIcon="green-check.png"/>
   );
 }
