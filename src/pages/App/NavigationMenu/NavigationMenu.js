@@ -14,7 +14,6 @@ import CustomTabs from "../../components/tabs";
 import Header from "../../components/header";
 import Landing from "../../Landing";
 
-
 class NavigationMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +24,7 @@ class NavigationMenu extends React.Component {
       isHome: true,
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     // will use for initial fetching of data
     let campaignData = [
       {

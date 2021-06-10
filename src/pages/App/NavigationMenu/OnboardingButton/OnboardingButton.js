@@ -55,6 +55,9 @@ export default function OnboardingButton() {
     }
   };
   return (
-    <RoundButton disabled={isDisabled} label={buttonText} onClick={onClick}/>
+    isDisabled ?
+      <RoundButton type="outline" label={buttonText} onClick={onClick}/> :       
+      <RoundButton type="solid" label={buttonText} onClick={onClick}/>
+
   );
 }
