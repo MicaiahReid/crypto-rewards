@@ -21,6 +21,24 @@ const campaignSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
+    },
+    budget: {
+      type: String,
+    },
+    active: {
+      type: Boolean,
+      require: true,
+      default: true
+    },
+    icon:
+    {
+        type: String
+    }
   },
   {
     timestamps: true,
