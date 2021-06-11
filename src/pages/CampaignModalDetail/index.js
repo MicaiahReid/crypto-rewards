@@ -50,7 +50,7 @@ const CampaignModalDetail = ({ campaignStatus, enrollOrVerify, campaign, onClose
         <div style={{ padding: "0px 8px", minWidth: 450 }}>
           <MuiDialogTitle
             disableTypography
-            dividers
+            dividers="true"
             id="customized-dialog-title"
             style={{
               display: "flex",
