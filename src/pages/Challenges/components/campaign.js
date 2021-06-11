@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from "react";
 import RoundButton from "../../components/round-button";
 import { animated, useSpring } from "@react-spring/web";
+import axios from "../../../utils/API";
+import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
 
 const Campaign = ({ onSelect, campaign }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const [campaignStatus, setCampaignStatus] = useState("");
   const animationStyle = useSpring({
     translateY: isHovering ? -4 : 0,
     scale: isHovering ? 1.02 : 1,
@@ -15,6 +18,38 @@ const Campaign = ({ onSelect, campaign }) => {
   const selectCampaign = useCallback(() => {
     onSelect(campaign);
   }, [onSelect, campaign]);
+
+  const enrollOrVerify = useCallback (() => {
+    if (!campaignStatus) {
+      getConnectedPublicAddress()
+        .then((accounts) => {
+          if (accounts.length > 0) {
+            axios
+              .post("/api/enroll", {
+                campaignId: campaign._id,
+                address: accounts[0],
+              })
+              .then(({ data }) => {
+                if (data.success) {
+                  setCampaignStatus("enrolled");
+                } else {
+                  console.log("error enrolling user");
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            console.log("user must link wallet"); // TODO prompt to make wallet
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (campaignStatus === "enrolled") {
+      console.log("verify");
+    }
+  }, [campaignStatus, campaign]);
 
   return (
     <animated.div
@@ -73,9 +108,13 @@ const Campaign = ({ onSelect, campaign }) => {
           </div>
         </div>
         <RoundButton
-          onPress={(e) => {}}
+          onPress={enrollOrVerify}
           style={{ marginTop: 8 }}
-          label={"Enroll"}
+          label={campaignStatus === "claimed"
+          ? "Claimed"
+          : campaignStatus === "enrolled"
+          ? "Claim"
+          : "Enroll"}
         />
       </div>
     </animated.div>
