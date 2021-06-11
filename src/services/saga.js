@@ -2,7 +2,7 @@ import { all, takeLatest, put, call, delay } from "redux-saga/effects";
 import { ActionTypes } from "./redux/index";
 import axios from "../utils/API";
 import getConnectedPublicAddress from "../utils/MetaMaskUtils";
-import { fetchCampaigns, setCampaigns } from "./redux/actions";
+import { setCampaigns } from "./redux/actions";
 
 function* fetchCampaignsApi() {
   console.log("Hello");
@@ -13,6 +13,7 @@ function* fetchCampaignsApi() {
       getPath += "/" + accounts[0];
     }
     let campaigns = yield call(axios.get, getPath);
+    yield put(setCampaigns(campaigns));
     console.log("GOT CAMPAIGNS", campaigns);
   } catch (error) {
     console.log("Error fetching campaigns:", error);
