@@ -1,11 +1,12 @@
 {
   "protocol": "Uniswap",
   "title": "Uniswap Swap",
+  "about": "https://uniswap.org/",
   "shortDescription": "Make Your First Swap",
   "subtitle": "",
   "reward": ".5 UNI",
   "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!",
-  "icon": "uniswap-logo.svg",
+  "icon": "uniswap.png",
   "verificationType": "trade",
   "address": "0xtestaddress"
 }

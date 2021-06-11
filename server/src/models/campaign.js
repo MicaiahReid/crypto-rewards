@@ -44,6 +44,14 @@ const campaignSchema = mongoose.Schema(
     address: {
       type: String,
     },
+    protocol: {
+      type: String,
+      required: true,
+    },
+    about: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

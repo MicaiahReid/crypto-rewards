@@ -1,8 +1,10 @@
 {
   "protocol": "Gitcoin",
   "title": "Gitcoin Grant",
+  "about": "https://gitcoin.co/",
   "shortDescription": "Make a Grant",
   "subtitle": "",
   "reward": "2 GTC",
-  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!"
+  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!",
+  "icon": "gitcoin.png"
 }
