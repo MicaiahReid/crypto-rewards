@@ -7,7 +7,7 @@ import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
 
 const theme = createMuiTheme({
     shape: {
-        borderRadius: 24
+        borderRadius: 12
     }
 })
 

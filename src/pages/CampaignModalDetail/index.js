@@ -1,149 +1,222 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import Box from "@material-ui/core/Box";
 import ReactMarkdown from "react-markdown";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import RoundButton from "../components/round-button";
 
-class CampaignModalDetail extends React.Component {
-  render() {
-    const campaign = this.props.campaign;
-    if (!campaign) {
-      return null;
-    }
+const CampaignModalDetail = ({ campaignStatus, enrollOrVerify, campaign, onClose, open }) => {
+  
+  const renderButton = useCallback(() => {
+    if (campaignStatus === "claimed")
+      return (
+        <RoundButton
+          onPress={enrollOrVerify}
+          style={{ marginTop: 8, backgroundColor: "black" }}
+          label={"Claimed"}
+        />
+      );
+    else if (campaignStatus === "enrolled")
+      return (
+        <RoundButton
+          onPress={enrollOrVerify}
+          style={{
+            marginTop: 8,
+            backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
+            borderColor: `${`rgba(55, 215, 100, 1)`}`,
+          }}
+          label={"Claim"}
+        />
+      );
+    else
+      return (
+        <RoundButton
+          onPress={enrollOrVerify}
+          style={{ marginTop: 8 }}
+          label={"Enroll"}
+        />
+      );
+  }, [campaignStatus, enrollOrVerify]);
 
-    const campaignTitle = campaign.title || "";
-    const description = campaign.longDescription || "";
-    const reward = campaign.reward || "";
+  if (campaign)
     return (
-      <Box borderRadius={32}>
-        <Dialog
-          onClose={this.props.onClose}
-          aria-labelledby="challenge-dialog-title"
-          open={this.props.open}
-        >
+      <Dialog
+        onClose={onClose}
+        aria-labelledby="challenge-dialog-title"
+        open={open}
+      >
+        <div style={{ padding: "0px 8px", minWidth: 450 }}>
           <MuiDialogTitle
             disableTypography
-            dividers
+            dividers="true"
             id="customized-dialog-title"
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
             }}
           >
             <div
               style={{
                 flex: 1,
-                color: "black",
                 fontSize: 25,
                 fontWeight: "700",
+                marginTop: 24,
               }}
             >
-              {campaignTitle}
+              {campaign.protocol}
             </div>
 
-            <div onClick={this.props.onClose}>
+            <div onClick={onClose}>
               <img
-                style={{ flex: 1, height: 32, width: 32 }}
+                style={{ flex: 1, height: 32, width: 32, marginTop: 8 }}
                 src={"dismiss-button.png"}
                 alt={"campaign-card"}
               ></img>
             </div>
           </MuiDialogTitle>
 
-          <Divider variant="middle" />
+          <Divider style={{ marginBottom: 16 }} variant="middle" />
 
           <DialogContent
             style={{
               display: "flex",
               flexDirection: "column",
-              marginTop: 8,
-              marginBottom: 16
+              marginTop: 16,
+              marginBottom: 40,
             }}
           >
             <div
               style={{
-                flex: 1,
-                color: "black",
-                fontSize: 15,
-                fontWeight: "700",
-              }}
-            >
-              About
-            </div>
-
-            <div
-              style={{
                 display: "flex",
-                marginTop: 8,
               }}
             >
-              <div style={{ color: `${`rgba(95, 107, 124, 1)`}`, fontSize: 13, marginRight: 4 }}>
-                To learn more about this protocol, visit:{" "}
-              </div>
-
-              <u><Link
-                style={{color: `${`rgba(95, 107, 124, 1)`}`, fontSize: 13, fontWeight: "800", underline: true }}
-                href="https://uniswap.org/about/"
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flex: 1,
+                }}
               >
-                About Uniswap
-              </Link></u>
+                <div
+                  style={{
+                    flex: 1,
+                    fontSize: 15,
+                    fontWeight: "700",
+                  }}
+                >
+                  Challenge
+                </div>
+
+                <div
+                  style={{
+                    color: `${`rgba(95, 107, 124, 1)`}`,
+                    fontSize: 13,
+                    marginTop: 8,
+                  }}
+                >
+                  {campaign.title}
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: 6,
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <div
+                      style={{
+                        color: `${`rgba(95, 107, 124, 1)`}`,
+                        fontSize: 13,
+                        marginRight: 4,
+                      }}
+                    >
+                      {"Rewards:"}
+                    </div>
+                    <div
+                      style={{
+                        color: `${`rgba(95, 107, 124, 1)`}`,
+                        fontSize: 13,
+                        fontWeight: "800",
+                      }}
+                    >
+                      {campaign.reward}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-end" }}>
+                {renderButton()}
+              </div>
             </div>
-            
+            <div style={{ marginTop: 24 }}>
+              <div
+                style={{
+                  flex: 1,
+                  fontSize: 15,
+                  fontWeight: "700",
+                }}
+              >
+                Instructions
+              </div>
+              <ReactMarkdown>{campaign.longDescription}</ReactMarkdown>
+            </div>
             <div
               style={{
                 flex: 1,
-                color: "black",
-                fontSize: 15,
-                fontWeight: "700",
                 marginTop: 24,
               }}
             >
-              Challenge
-            </div>
-
-            <div style={{ color: `${`rgba(95, 107, 124, 1)`}`, fontSize: 13, marginTop: 8 }}>
-                {campaignTitle}
-            </div>
-
-            <ReactMarkdown
-              style={{
-                flex: 1,
-                color: `${`rgba(95, 107, 124, 1)`}`
-              }}
-            >
-              {description}
-            </ReactMarkdown>
-
-            <div style={{ display: "flex", alignItems: "center"}}>
-
-              <div style={{ display: "flex" }}>
-                <div style={{ color: `${`rgba(95, 107, 124, 1)`}`, fontSize: 13, marginRight: 4 }}>
-                  {"Rewards:"}
-                </div>
-                <div
-                  style={{ color: `${`rgba(95, 107, 124, 1)`}`, fontSize: 13, fontWeight: "800" }}
-                >
-                  {reward}
-                </div>
+              <div
+                style={{
+                  flex: 1,
+                  fontSize: 15,
+                  fontWeight: "700",
+                }}
+              >
+                About
               </div>
 
-              <RoundButton
-              onClick={(e) => this.props.callToAction}
-              label={this.props.callToActionState}
-              style={{flex:1}}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: 8,
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    color: `${`rgba(95, 107, 124, 1)`}`,
+                    fontSize: 13,
+                    marginRight: 4,
+                  }}
+                >
+                  To learn more about this protocol:{" "}
+                </div>
 
+                <u>
+                  <Link
+                    style={{
+                      color: `${`rgba(95, 107, 124, 1)`}`,
+                      fontSize: 13,
+                      fontWeight: "800",
+                      underline: true,
+                    }}
+                    href={campaign.about}
+                  >
+                    Visit Website
+                  </Link>
+                </u>
+              </div>
             </div>
           </DialogContent>
-        </Dialog>
-      </Box>
+        </div>
+      </Dialog>
     );
-  }
-}
+  else return null;
+};
 
 export default CampaignModalDetail;

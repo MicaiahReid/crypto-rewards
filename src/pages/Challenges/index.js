@@ -1,6 +1,4 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import Campaign from "./components/campaign";
 
 class Protocol extends React.Component {
@@ -8,6 +6,8 @@ class Protocol extends React.Component {
     super(props);
     this.state = {
       campaigns: props.campaigns,
+      enrollOrVerify: props.enrollOrVerify,
+      campaignStatus: props.campaignStatus,
     };
   }
 
@@ -18,22 +18,13 @@ class Protocol extends React.Component {
         {campaigns.map((campaign) => (
           <Campaign
             onSelect={this.props.onSelectCampaign}
-            key={campaign.id}
+            key={campaign._id}
             campaign={campaign}
+            campaignStatus={this.props.campaignStatus}
+            enrollOrVerify={this.props.enrollOrVerify}
           ></Campaign>
         ))}
       </div>
-      //   <Grid item xs={12}>
-      //     <Grid container justify="center" alignItems="stretch" spacing={3}>
-      //       {campaigns.map((campaign) => (
-      //         <Grid key={campaign.id} item xs={12} sm={4}>
-      //           <Box>
-      //             <Campaign key={campaign.id} campaign={campaign}></Campaign>
-      //           </Box>
-      //         </Grid>
-      //       ))}
-      //     </Grid>
-      //   </Grid>
     );
   }
 }

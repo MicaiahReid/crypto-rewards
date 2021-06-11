@@ -10,7 +10,7 @@ const CONNECT_TEXT = 'Connect';
 
 export default function OnboardingButton() {
   const [buttonText, setButtonText] = React.useState(ONBOARD_TEXT);
-  const [isDisabled, setDisabled] = React.useState(false);
+  const [isConnected, setConnected] = React.useState(false);
   const [accounts, setAccounts] = React.useState([]);
   const [userId, setUserId] = React.useState("");
   const onboarding = React.useRef();
@@ -51,11 +51,11 @@ export default function OnboardingButton() {
             });
         }
         setButtonText(accounts[0].slice(0,6)+'...' + accounts[0].slice(accounts[0].length-4,accounts[0].length));
-        setDisabled(true);
+        setConnected(true);
         onboarding.current.stopOnboarding();
       } else {
         setButtonText(CONNECT_TEXT);
-        setDisabled(false);
+        setConnected(false);
       }
     }
   }, [accounts, userId]);
@@ -86,10 +86,10 @@ export default function OnboardingButton() {
   };
 
   const renderImage = () => {
-    <img style={{ flex: 1 }} src={"green-check.png"} alt={"green-check"}></img>
+   return( <img style={{  height:16, width: 16, marginRight: 8 }} src={"green-check.png"} alt={"green-check"}></img> );
   }
 
   return (
-    isDisabled ? <RoundButton type="outline" label={buttonText} onClick={onClick} leftIcon={renderImage}/> : <RoundButton type="solid" label={buttonText} onClick={onClick}/>
+    isConnected ? <RoundButton type="outline" label={buttonText} onClick={onClick} leftIcon={renderImage()}/> : <RoundButton type="solid" label={buttonText} onClick={onClick}/>
   );
 }
