@@ -1,16 +1,11 @@
-import { all, takeEvery, put, call, delay } from "redux-saga/effects";
+import { all, takeLatest, put, call, delay } from "redux-saga/effects";
 import { ActionTypes } from "./redux/index";
 import axios from "../utils/API";
 import getConnectedPublicAddress from "../utils/MetaMaskUtils";
 import { fetchCampaigns, setCampaigns } from "./redux/actions";
 
-function* initialize() {
-  // Trigger initial campaign fetch
-  yield delay(100);
-  yield put(fetchCampaigns());
-}
-
 function* fetchCampaignsApi() {
+  console.log("Hello");
   try {
     const accounts = yield call(getConnectedPublicAddress);
     let getPath = "/api/campaigns";
@@ -25,10 +20,10 @@ function* fetchCampaignsApi() {
 }
 
 function* watchCampaignUpdates() {
-  // Listen to
-  yield takeEvery(ActionTypes.FETCH_CAMPAIGNS, fetchCampaignsApi);
+  // Listen to campaign updates
+  yield takeLatest(ActionTypes.FETCH_CAMPAIGNS, fetchCampaignsApi);
 }
 
 export default function* rootSaga() {
-  yield all([initialize(), fetchCampaignsApi(), watchCampaignUpdates()]);
+  yield all([fetchCampaignsApi(), watchCampaignUpdates()]);
 }
