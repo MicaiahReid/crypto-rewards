@@ -18,7 +18,7 @@ class Protocol extends React.Component {
         {campaigns.map((campaign) => (
           <Campaign
             onSelect={this.props.onSelectCampaign}
-            key={campaign.id}
+            key={campaign._id}
             campaign={campaign}
             campaignStatus={this.props.campaignStatus}
             enrollOrVerify={this.props.enrollOrVerify}
