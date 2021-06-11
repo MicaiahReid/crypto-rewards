@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
+import { animated, useSpring } from "@react-spring/web";
 
 const RoundButton = ({
   size = "medium",
@@ -8,6 +9,14 @@ const RoundButton = ({
   onPress,
   leftIcon,
 }) => {
+  const [isHovering, setIsHovering] = useState(false);
+  const animationStyle = useSpring({
+    scale: isHovering ? 1.05 : 1,
+    config: {
+      duration: 100,
+    },
+  });
+
   const buttonSize = useCallback(() => {
     switch (size) {
       case "small":
@@ -57,8 +66,11 @@ const RoundButton = ({
   }, [type]);
 
   return (
-    <div
-      onClick={onPress}
+    <animated.div
+      onClick={(e) => {
+        e.stopPropagation();
+        onPress && onPress(e);
+      }}
       style={{
         borderRadius: 999,
         display: "flex",
@@ -68,11 +80,14 @@ const RoundButton = ({
         ...buttonSize(),
         ...buttonStyle(),
         ...style,
+        ...animationStyle,
       }}
-    >   
+      onMouseOver={() => setIsHovering(true)}
+      onMouseOut={() => setIsHovering(false)}
+    >
       {leftIcon && leftIcon}
       {label}
-    </div>
+    </animated.div>
   );
 };
 

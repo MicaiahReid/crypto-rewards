@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import TabLabel from "./components/tab-label";
 
 const Tabs = ({ selectedIndex, tabs, onSelectIndex }) => {
   const triggerSelectIndex = useCallback(
@@ -13,20 +14,12 @@ const Tabs = ({ selectedIndex, tabs, onSelectIndex }) => {
       return (
         <div style={{ display: "flex" }} key={label}>
           {/** Tab */}
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={() => triggerSelectIndex(index)}
-          >
-            <div style={{ marginTop: 3, fontSize: 22, fontWeight: "800" }}>
-              {label}
-            </div>
-            <div
-              style={{
-                height: 3,
-                backgroundColor: isSelected ? "#24B0FF" : undefined,
-              }}
-            />
-          </div>
+          <TabLabel
+            label={label}
+            isSelected={isSelected}
+            onSelect={triggerSelectIndex}
+            index={index}
+          />
           {/** Divider */}
           {!isLastItem ? (
             <div
