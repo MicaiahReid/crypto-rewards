@@ -5,6 +5,8 @@ import rootSaga from "../saga";
 export const ActionTypes = {
   FETCH_CAMPAIGNS: "FETCH_CAMPAIGNS",
   SET_CAMPAIGNS: "SET_CAMPAIGNS",
+  VERIFY_REWARDS: "VERIFY_REWARDS",
+  ENROLL_TO_CHALLENGE: "ENROLL_TO_CHALLENGE",
 };
 
 const appState = {

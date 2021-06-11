@@ -11,3 +11,17 @@ export const setCampaigns = (campaigns) => ({
     campaigns,
   },
 });
+
+export const verifyRewards = (campaignId) => ({
+  type: ActionTypes.VERIFY_REWARDS,
+  payload: {
+    campaignId,
+  },
+});
+
+export const enrollToChallenge = (campaignId) => ({
+  type: ActionTypes.ENROLL_TO_CHALLENGE,
+  payload: {
+    campaignId,
+  },
+});
