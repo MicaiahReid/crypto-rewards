@@ -94,11 +94,11 @@ const Campaign = ({ onSelect, campaign }) => {
           padding: 24,
         }}
       >
-        <div style={{ color: "white", fontSize: 20, fontWeight: "800" }}>
-          {campaign.title}
+        <div style={{ color: "white", fontSize: 20, fontWeight: "800", marginBottom: 4  }}>
+          {campaign.protocol}
         </div>
-        <div style={{ color: "white", fontSize: 13 }}>
-          {campaign.shortDescription}
+        <div style={{ color: "white", fontSize: 13, marginBottom: 4  }}>
+          {campaign.title}
         </div>
         <div style={{ display: "flex" }}>
           <div style={{ color: "white", fontSize: 13, marginRight: 4 }}>

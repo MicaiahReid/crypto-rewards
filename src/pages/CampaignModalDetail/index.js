@@ -16,7 +16,7 @@ class CampaignModalDetail extends React.Component {
     }
 
     const campaignProtocol = campaign.protocol || "";
-    const campaignTitle = campaign.title || "";
+    const campaignTitle = campaign.shortDescription || "";
     const description = campaign.longDescription || "";
     const reward = campaign.reward || "";
     return (
@@ -38,13 +38,12 @@ class CampaignModalDetail extends React.Component {
             <div
               style={{
                 flex: 1,
-                color: "black",
                 fontSize: 25,
                 fontWeight: "700",
                 marginTop: 24,
               }}
             >
-              {campaignTitle}
+              {campaignProtocol}
             </div>
 
             <div onClick={this.props.onClose}>
@@ -81,7 +80,6 @@ class CampaignModalDetail extends React.Component {
                 <div
                   style={{
                     flex: 1,
-                    color: "black",
                     fontSize: 15,
                     fontWeight: "700",
                   }}
@@ -139,7 +137,6 @@ class CampaignModalDetail extends React.Component {
             <div
                   style={{
                     flex: 1,
-                    color: "black",
                     fontSize: 15,
                     fontWeight: "700",
                   }}
@@ -157,7 +154,6 @@ class CampaignModalDetail extends React.Component {
               <div
                 style={{
                   flex: 1,
-                  color: "black",
                   fontSize: 15,
                   fontWeight: "700",
                 }}
