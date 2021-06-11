@@ -6,7 +6,7 @@ exports.enroll = async (req, res) => {
   const { address, campaignId } = req.body;
   const cryptoRewardsUser = await user.findOne({ address: address });
 
-  if (cryptoRewardsUser !== undefined) {
+  if (cryptoRewardsUser !== null && cryptoRewardsUser !== undefined) {
     try {
       const enrollBlock = await getLatestBlockNum();
       const userCampaignInst = new userCampaign({
@@ -16,7 +16,16 @@ exports.enroll = async (req, res) => {
       });
 
       await userCampaignInst.save();
-
+      console.log(
+        "enrolled user: " +
+          cryptoRewardsUser._id +
+          " with address " +
+          address +
+          " in campaign " +
+          campaignId +
+          " at block" +
+          enrollBlock
+      );
       await userCampaignInst
         .populate("user")
         .populate("campaign")
@@ -41,14 +50,14 @@ exports.verify = async (req, res) => {
   const { address, campaignId } = req.body;
   const cryptoRewardsUser = await user.findOne({ address: address });
 
-  if (cryptoRewardsUser !== undefined) {
+  if (cryptoRewardsUser !== null && cryptoRewardsUser !== undefined) {
     const userId = cryptoRewardsUser._id;
     // we need the enrollment block data, so get the userCampaign
     const userCampaignInst = await userCampaign.findOne({
       user: userId,
       campaign: campaignId,
     });
-    if (userCampaignInst !== undefined) {
+    if (userCampaignInst !== null && userCampaignInst !== undefined) {
       try {
         // save the latest block so we have a snapshot of when they clicked verify
         const verifyBlock = await getLatestBlockNum();
@@ -64,22 +73,38 @@ exports.verify = async (req, res) => {
           userAddress: userCampaignInst.user.address,
           campaignAddress: userCampaignInst.campaign.address,
           verificationType: userCampaignInst.campaign.verificationType,
+          minimumValue: userCampaignInst.campaign.minimumValue,
+          rewardDecimal: userCampaignInst.campaign.rewardDecimal,
           enrollBlock: userCampaignInst.enrollBlock,
           verifyBlock: verifyBlock,
         };
+        console.log(
+          "verifying user: " +
+            cryptoRewardsUser._id +
+            " with address " +
+            userCampaignInst.user.address +
+            " in campaign " +
+            campaignId +
+            " at block" +
+            verifyBlock
+        );
         // and not let's verify!
-        const success = await verify(verificationData);
-        console.log(success);
-        if (success === true) {
+        const payout = await verify(verificationData);
+        if (payout && payout > 0) {
+          console.log(payout);
+          // TODO: now just call the contract to pay!
           userCampaignInst.claimedReward = true;
           userCampaignInst.save();
           return res.status(200).json({
-            success: success,
+            success: true,
           });
         } else {
           return res.status(400).json({
             error:
-              "failed to verify " + userCampaignInst.campaign.verificationType,
+              "failed to verify " +
+              userCampaignInst.campaign.verificationType +
+              ". " +
+              payout,
           });
         }
       } catch (error) {
