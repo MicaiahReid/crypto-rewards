@@ -5,7 +5,7 @@
   "shortDescription": "Make Your First Swap",
   "subtitle": "",
   "reward": ".0001 UNI",
-  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade **at least 10** Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!",
+  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade **at least .01** Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!",
   "icon": "uniswap.png",
   "verificationType": "trade",
   "address": "0x7a250d5630b4cf539739df2c5dacb4c659f2488d",
