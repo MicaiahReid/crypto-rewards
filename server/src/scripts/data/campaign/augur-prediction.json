@@ -1,8 +1,10 @@
 {
   "protocol": "Augur",
   "title": "Augur Prediction",
+  "about": "https://augur.net/",
   "shortDescription": "Make a Prediction",
   "subtitle": "",
   "reward": "1 REP",
-  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!"
+  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Compound's trading site.](https://app.compound.finance/)  \n3. Do some other stuff.  \n4. Come back here and click Verify.  \n5. You should recieve your reward in 3 months!",
+  "icon": "augur.png"
 }
