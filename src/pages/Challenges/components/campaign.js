@@ -16,6 +16,7 @@ const Campaign = ({ onSelect, campaign }) => {
   });
 
   const selectCampaign = useCallback(() => {
+    console.log(campaign)
     onSelect(campaign);
   }, [onSelect, campaign]);
 

@@ -41,31 +41,6 @@ const NavigationMenu = () => {
       });
   })
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/campaigns")
-  //     .then((res) => {
-  //       const campaignData = res.data;
-  //       const userEnrolledCampaigns = ["1"];
-  //       if (userEnrolledCampaigns.length > 0) {
-  //         // merge each campaign with whether the user has already enrolled in that campaign
-  //         for (let i = 0; i < userEnrolledCampaigns.length; i++) {
-  //           const userCampaignId = userEnrolledCampaigns[i];
-  //           for (let j = 0; j < campaignData.length; j++) {
-  //             const campaignId = campaignData[j]._id;
-  //             if (userCampaignId === campaignId) {
-  //               campaignData[j].userEnrolled = true;
-  //             }
-  //           }
-  //         }
-  //       }
-  //       setCampaigns(campaignData);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [setCampaigns]);
-
   const triggerDismissCampaignModal = useCallback(
     () => setSelectedCampaign(undefined),
     [setSelectedCampaign]
