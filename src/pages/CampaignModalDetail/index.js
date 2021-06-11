@@ -205,7 +205,7 @@ const CampaignModalDetail = ({ campaignStatus, enrollOrVerify, campaign, onClose
                       fontWeight: "800",
                       underline: true,
                     }}
-                    href="https://uniswap.org/about/"
+                    href={campaign.about}
                   >
                     Visit Website
                   </Link>
