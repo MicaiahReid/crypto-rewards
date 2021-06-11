@@ -13,6 +13,7 @@ import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
 const NavigationMenu = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [campaignStatus, setCampaignStatus] = useState("");
   const [showHome, setShowHome] = useState(true);
   const [selectedCampaign, setSelectedCampaign] = useState(undefined);
   const [fadeStyle, fadeApi] = useSpring(() => ({
@@ -20,7 +21,7 @@ const NavigationMenu = () => {
     onRest: () => setShowHome(false),
   }));
 
-  useEffect( () => {
+  useEffect(() => {
     getConnectedPublicAddress()
       .then((accounts) => {
         let getPath = "/api/campaigns";
@@ -40,8 +41,7 @@ const NavigationMenu = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [])
-
+  }, []);
 
   const triggerDismissCampaignModal = useCallback(
     () => setSelectedCampaign(undefined),
@@ -72,15 +72,53 @@ const NavigationMenu = () => {
     ) : null;
   }, [showHome, fadeApi, fadeStyle]);
 
+  const enrollOrVerify = useCallback(() => {
+    if (!campaignStatus) {
+      getConnectedPublicAddress()
+        .then((accounts) => {
+          if (accounts.length > 0) {
+            axios
+              .post("/api/enroll", {
+                campaignId: selectedCampaign._id,
+                address: accounts[0],
+              })
+              .then(({ data }) => {
+                if (data.success) {
+                  setCampaignStatus("enrolled");
+                } else {
+                  console.log("error enrolling user");
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            console.log("user must link wallet"); // TODO prompt to make wallet
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (campaignStatus === "enrolled") {
+      console.log("verify");
+    }
+  }, [campaignStatus, selectedCampaign]);
   const renderCampaignModal = useCallback(() => {
     return (
       <CampaignModalDetail
         open={!!selectedCampaign}
         onClose={triggerDismissCampaignModal}
         campaign={selectedCampaign}
+        enrollOrVerify={enrollOrVerify}
+        campaignStatus={campaignStatus}
       ></CampaignModalDetail>
     );
-  }, [selectedCampaign, triggerDismissCampaignModal]);
+  }, [
+    campaignStatus,
+    selectedCampaign,
+    enrollOrVerify,
+    triggerDismissCampaignModal,
+  ]);
 
   return (
     <div

@@ -1,29 +1,51 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import Box from "@material-ui/core/Box";
 import ReactMarkdown from "react-markdown";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import RoundButton from "../components/round-button";
 
-class CampaignModalDetail extends React.Component {
-  render() {
-    const campaign = this.props.campaign;
-    if (!campaign) {
-      return null;
-    }
+const CampaignModalDetail = ({ campaignStatus, enrollOrVerify, campaign, onClose, open }) => {
+  
+  const renderButton = useCallback(() => {
+    if (campaignStatus === "claimed")
+      return (
+        <RoundButton
+          onPress={enrollOrVerify}
+          style={{ marginTop: 8, backgroundColor: "black" }}
+          label={"Claimed"}
+        />
+      );
+    else if (campaignStatus === "enrolled")
+      return (
+        <RoundButton
+          onPress={enrollOrVerify}
+          style={{
+            marginTop: 8,
+            backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
+            borderColor: `${`rgba(55, 215, 100, 1)`}`,
+          }}
+          label={"Claim"}
+        />
+      );
+    else
+      return (
+        <RoundButton
+          onPress={enrollOrVerify}
+          style={{ marginTop: 8 }}
+          label={"Enroll"}
+        />
+      );
+  }, [campaignStatus, enrollOrVerify]);
 
-    const campaignProtocol = campaign.protocol || "";
-    const campaignTitle = campaign.shortDescription || "";
-    const description = campaign.longDescription || "";
-    const reward = campaign.reward || "";
+  if (campaign)
     return (
       <Dialog
-        onClose={this.props.onClose}
+        onClose={onClose}
         aria-labelledby="challenge-dialog-title"
-        open={this.props.open}
+        open={open}
       >
         <div style={{ padding: "0px 8px", minWidth: 450 }}>
           <MuiDialogTitle
@@ -43,10 +65,10 @@ class CampaignModalDetail extends React.Component {
                 marginTop: 24,
               }}
             >
-              {campaignProtocol}
+              {campaign.protocol}
             </div>
 
-            <div onClick={this.props.onClose}>
+            <div onClick={onClose}>
               <img
                 style={{ flex: 1, height: 32, width: 32, marginTop: 8 }}
                 src={"dismiss-button.png"}
@@ -94,7 +116,7 @@ class CampaignModalDetail extends React.Component {
                     marginTop: 8,
                   }}
                 >
-                  {campaignTitle}
+                  {campaign.title}
                 </div>
 
                 <div
@@ -121,29 +143,26 @@ class CampaignModalDetail extends React.Component {
                         fontWeight: "800",
                       }}
                     >
-                      {reward}
+                      {campaign.reward}
                     </div>
                   </div>
                 </div>
               </div>
               <div style={{ display: "flex", alignItems: "flex-end" }}>
-                <RoundButton
-                  // onClick={}
-                  label={"Test"}
-                />
+                {renderButton()}
               </div>
             </div>
-            <div style={{marginTop: 24}}>
-            <div
-                  style={{
-                    flex: 1,
-                    fontSize: 15,
-                    fontWeight: "700",
-                  }}
-                >
-                  Instructions
-                </div>
-            <ReactMarkdown>{description}</ReactMarkdown>
+            <div style={{ marginTop: 24 }}>
+              <div
+                style={{
+                  flex: 1,
+                  fontSize: 15,
+                  fontWeight: "700",
+                }}
+              >
+                Instructions
+              </div>
+              <ReactMarkdown>{campaign.longDescription}</ReactMarkdown>
             </div>
             <div
               style={{
@@ -197,7 +216,7 @@ class CampaignModalDetail extends React.Component {
         </div>
       </Dialog>
     );
-  }
-}
+  else return null;
+};
 
 export default CampaignModalDetail;

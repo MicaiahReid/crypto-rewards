@@ -4,9 +4,8 @@ import { animated, useSpring } from "@react-spring/web";
 import axios from "../../../utils/API";
 import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
 
-const Campaign = ({ onSelect, campaign }) => {
+const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify}) => {
   const [isHovering, setIsHovering] = useState(false);
-  const [campaignStatus, setCampaignStatus] = useState("");
   const animationStyle = useSpring({
     translateY: isHovering ? -4 : 0,
     scale: isHovering ? 1.02 : 1,
@@ -20,37 +19,29 @@ const Campaign = ({ onSelect, campaign }) => {
     onSelect(campaign);
   }, [onSelect, campaign]);
 
-  const enrollOrVerify = useCallback (() => {
-    if (!campaignStatus) {
-      getConnectedPublicAddress()
-        .then((accounts) => {
-          if (accounts.length > 0) {
-            axios
-              .post("/api/enroll", {
-                campaignId: campaign._id,
-                address: accounts[0],
-              })
-              .then(({ data }) => {
-                if (data.success) {
-                  setCampaignStatus("enrolled");
-                } else {
-                  console.log("error enrolling user");
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          } else {
-            console.log("user must link wallet"); // TODO prompt to make wallet
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else if (campaignStatus === "enrolled") {
-      console.log("verify");
-    }
-  }, [campaignStatus, campaign]);
+  const renderButton = useCallback(() => {
+        if(campaignStatus === "claimed")         
+        return ( <RoundButton
+            onPress={enrollOrVerify}
+            style={{ marginTop: 8,
+              backgroundColor: "black", 
+              }}
+            label={"Claimed"}/>);
+        else if (campaignStatus === "enrolled")      
+        return (<RoundButton
+          onPress={enrollOrVerify}
+          style={{ marginTop: 8,
+            backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
+            borderColor: `${`rgba(55, 215, 100, 1)`}`
+            }}
+          label={"Claim"}/>);
+        else  
+        return ( <RoundButton
+            onPress={enrollOrVerify}
+            style={{ marginTop: 8 }}
+            label={"Enroll"}
+          />);
+  }, [campaignStatus, enrollOrVerify]);
 
   return (
     <animated.div
@@ -108,29 +99,7 @@ const Campaign = ({ onSelect, campaign }) => {
             {campaign.reward}
           </div>
         </div>
-        {campaignStatus === "claimed" &&         
-          <RoundButton
-            onPress={enrollOrVerify}
-            style={{ marginTop: 8,
-              backgroundColor: "black", 
-              }}
-            label={"Claimed"}/>
-        }
-        {campaignStatus === "enrolled" &&        
-          <RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8,
-            backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
-            borderColor: `${`rgba(55, 215, 100, 1)`}`
-            }}
-          label={"Claim"}/>
-        }
-        {campaignStatus !== "enrolled" &&campaignStatus !== "claimed" &&   
-        <RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8 }}
-          label={"Enroll"}
-        />}
+        {renderButton()}
       </div>
     </animated.div>
   );
