@@ -23,6 +23,11 @@ class Achievements extends React.Component {
         table: {
           minWidth: 650,
         },
+        headerCell: {
+            color: `${`rgba(133, 135, 168, 1)`}`,
+            fontSize: 26,
+            weight: 700
+        }
       });
       
 
@@ -33,21 +38,21 @@ class Achievements extends React.Component {
             <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
-                <TableRow>
-                    <TableCell>Protocol</TableCell>
-                    <TableCell>Challenge</TableCell>
-                    <TableCell>Reward</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell></TableCell>
+                <TableRow style={{backgroundColor: `${`rgba(89, 93, 149, 0.04)`}`}}>
+                    <TableCell style={{color: `${`rgba(133, 135, 168, 1)`}`, fontSize: 20, fontWeight: 'bold' }}>PROTOCOL</TableCell>
+                    <TableCell style={{color: `${`rgba(133, 135, 168, 1)`}`, fontSize: 20, fontWeight: 'bold' }}>CHALLENGE</TableCell>
+                    <TableCell style={{color: `${`rgba(133, 135, 168, 1)`}`, fontSize: 20, fontWeight: 'bold' }}>REWARD</TableCell>
+                    <TableCell style={{color: `${`rgba(133, 135, 168, 1)`}`, fontSize: 20, fontWeight: 'bold' }}>STATUS</TableCell>
+                    <TableCell style={{color: `${`rgba(133, 135, 168, 1)`}`, fontSize: 20, fontWeight: 'bold' }}></TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
                 {this.state.campaigns.map((row) => (
                     <TableRow key={row.title}>
                     <TableCell component="th" scope="row">
-                        {row.title}
+                        UniSwap
                     </TableCell>
-                    <TableCell>{row.shortDescription}</TableCell>
+                    <TableCell>{row.title}</TableCell>
                     <TableCell>{row.reward}</TableCell>
                     <TableCell>{<RoundButton label="Claimed"/>}</TableCell>
                     <TableCell>
