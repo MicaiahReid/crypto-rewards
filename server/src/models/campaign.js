@@ -33,12 +33,17 @@ const campaignSchema = mongoose.Schema(
     active: {
       type: Boolean,
       require: true,
-      default: true
+      default: true,
     },
-    icon:
-    {
-        type: String
-    }
+    icon: {
+      type: String,
+    },
+    verificationType: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
   },
   {
     timestamps: true,
