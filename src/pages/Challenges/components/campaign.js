@@ -76,7 +76,7 @@ const Campaign = ({ onSelect, campaign }) => {
       {/** Card background */}
       <img
         style={{ flex: 1 }}
-        src={"campaign-card.png"}
+        src={campaign.icon}
         alt={"campaign-card"}
       ></img>
       {/** Card content */}
