@@ -6,7 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import RoundButton from "../components/round-button";
 
@@ -25,6 +25,37 @@ const Achievements = (campaigns) => {
   const handleRowClick = () => {
     console.log("Test");
   };
+
+  const renderButton = useCallback((row) => {
+    return (
+      <div sytle={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", alignItems: "flex-end" }}>
+          <RoundButton
+            style={{
+              backgroundColor: "black",
+              borderColor: "black",
+            }}
+            label="Claimed"
+            leftIcon={
+              <img
+                style={{ height: 16, width: 16, marginRight: 8 }}
+                src={"green-check.png"}
+                alt={"green-check"}
+              ></img>
+            }
+          />
+
+          {/* <RoundButton
+            style={{
+                backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
+                borderColor: `${`rgba(55, 215, 100, 1)`}`,
+            }}
+            label="Claim"
+            /> */}
+        </div>{" "}
+      </div>
+    );
+  }, []);
 
   const renderHeader = useCallback(() => {
     return (
@@ -76,57 +107,58 @@ const Achievements = (campaigns) => {
     );
   }, []);
 
-  const renderRow = useCallback((row) => {
-    console.log(row);
-    return (
-      <TableRow key={row._id} onClick={handleRowClick}>
-        <TableCell
-          component="th"
-          scope="row"
-          style={{
-            color: "black",
-            fontSize: 20,
-          }}
-        >
-          {row.protocol}
-        </TableCell>
-        <TableCell
-          style={{
-            color: "black",
-            fontSize: 20,
-          }}
-        >
-          {row.title}
-        </TableCell>
-        <TableCell
-          style={{
-            color: "black",
-            fontSize: 20,
-          }}
-        >
-          {row.reward}
-        </TableCell>
-        <TableCell
-          style={{
-            color: "black",
-            fontSize: 20,
-          }}
-        >
-          {<RoundButton style={{
-            backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
-            borderColor: `${`rgba(55, 215, 100, 1)`}`
+  const renderRow = useCallback(
+    (row) => {
+      console.log(row);
+      return (
+        <TableRow key={row._id} onClick={handleRowClick}>
+          <TableCell
+            component="th"
+            scope="row"
+            style={{
+              color: "black",
+              fontSize: 20,
             }}
-        label="Claimed" />}
-        </TableCell>
-        <TableCell>
-          <ChevronRightIcon style={{color: `${`rgba(175, 192, 216, 1)`}`}}/>
-        </TableCell>
-      </TableRow>
-    );
-  }, []);
+          >
+            {row.protocol}
+          </TableCell>
+          <TableCell
+            style={{
+              color: "black",
+              fontSize: 20,
+            }}
+          >
+            {row.title}
+          </TableCell>
+          <TableCell
+            style={{
+              color: "black",
+              fontSize: 20,
+            }}
+          >
+            {row.reward}
+          </TableCell>
+          <TableCell
+            style={{
+              color: "black",
+              fontSize: 20,
+            }}
+          >
+            {renderButton(row)}
+          </TableCell>
+          <TableCell>
+            <ChevronRightIcon
+              style={{ color: `${`rgba(175, 192, 216, 1)`}` }}
+            />
+          </TableCell>
+        </TableRow>
+      );
+    },
+    [renderButton]
+  );
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Box}>
       <Table className={useStyles.table} aria-label="simple table">
         <TableHead>{renderHeader()}</TableHead>
         <TableBody>
