@@ -1,4 +1,3 @@
-import { Icon } from '@material-ui/core';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import React from 'react';
 import RoundButton from "../../../components/round-button";

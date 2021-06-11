@@ -6,8 +6,6 @@ class Protocol extends React.Component {
     super(props);
     this.state = {
       campaigns: props.campaigns,
-      enrollOrVerify: props.enrollOrVerify,
-      campaignStatus: props.campaignStatus,
     };
   }
 
@@ -20,8 +18,6 @@ class Protocol extends React.Component {
             onSelect={this.props.onSelectCampaign}
             key={campaign._id}
             campaign={campaign}
-            campaignStatus={this.props.campaignStatus}
-            enrollOrVerify={this.props.enrollOrVerify}
           ></Campaign>
         ))}
       </div>

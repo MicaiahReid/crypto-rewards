@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from "react";
 import RoundButton from "../../components/round-button";
 import { animated, useSpring } from "@react-spring/web";
-import axios from "../../../utils/API";
-import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
 import { useDispatch } from "react-redux";
-import { fetchCampaigns } from "../../../services/redux/actions";
+import { enrollToChallenge, verifyRewards } from "../../../services/redux/actions";
 
-const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify }) => {
+const Campaign = ({ onSelect, campaign}) => {
   const [isHovering, setIsHovering] = useState(false);
   const animationStyle = useSpring({
     translateY: isHovering ? -4 : 0,
@@ -15,6 +13,7 @@ const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify }) => {
       duration: 100,
     },
   });
+
   const dispatch = useDispatch();
 
   const selectCampaign = useCallback(() => {
@@ -23,18 +22,28 @@ const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify }) => {
   }, [onSelect, campaign]);
 
   const renderButton = useCallback(() => {
-    if (campaignStatus === "claimed")
+    console.log("Button called here")
+    if (campaign.status === "claimed")
       return (
         <RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8, backgroundColor: "black" }}
-          label={"Claimed"}
+          style={{
+            backgroundColor: "black",
+            borderColor: "black",
+          }}
+          label="Claimed"
+          leftIcon={
+            <img
+              style={{ height: 16, width: 16, marginRight: 8 }}
+              src={"green-check.png"}
+              alt={"green-check"}
+            ></img>
+          }
         />
       );
-    else if (campaignStatus === "enrolled")
+    else if (campaign.status === "enrolled")
       return (
         <RoundButton
-          onPress={enrollOrVerify}
+        onClick={() => dispatch(verifyRewards(campaign._id))}
           style={{
             marginTop: 8,
             backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
@@ -46,12 +55,12 @@ const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify }) => {
     else
       return (
         <RoundButton
-          onPress={enrollOrVerify}
+          onClick={() => dispatch(enrollToChallenge(campaign._id))}
           style={{ marginTop: 8 }}
           label={"Enroll"}
         />
       );
-  }, [campaignStatus, enrollOrVerify]);
+  }, [campaign, dispatch]);
 
   return (
     <animated.div

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Protocol from "../../Challenges";
 import Achievements from "../../Rewards";
 import OnboardingButton from "./OnboardingButton/OnboardingButton";
@@ -12,13 +12,13 @@ import { getCampaigns } from "../../../services/redux/selectors";
 
 const NavigationMenu = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [campaignStatus, setCampaignStatus] = useState("");
   const [showHome, setShowHome] = useState(true);
   const [selectedCampaign, setSelectedCampaign] = useState(undefined);
   const [fadeStyle, fadeApi] = useSpring(() => ({
     opacity: 1,
     onRest: () => setShowHome(false),
   }));
+  
   const campaigns = useSelector(getCampaigns);
 
   const triggerDismissCampaignModal = useCallback(
@@ -88,14 +88,10 @@ const NavigationMenu = () => {
         open={!!selectedCampaign}
         onClose={triggerDismissCampaignModal}
         campaign={selectedCampaign}
-        // enrollOrVerify={enrollOrVerify}
-        campaignStatus={campaignStatus}
       ></CampaignModalDetail>
     );
   }, [
-    campaignStatus,
     selectedCampaign,
-    // enrollOrVerify,
     triggerDismissCampaignModal,
   ]);
 

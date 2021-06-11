@@ -6,22 +6,36 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import RoundButton from "../components/round-button";
+import { useDispatch } from "react-redux";
+import { enrollToChallenge, verifyRewards } from "../../services/redux/actions";
 
-const CampaignModalDetail = ({ campaignStatus, enrollOrVerify, campaign, onClose, open }) => {
-  
+const CampaignModalDetail = ({ campaign, onClose, open }) => {
+
+  const dispatch = useDispatch();
+
   const renderButton = useCallback(() => {
-    if (campaignStatus === "claimed")
+    console.log("Button called here")
+    if (campaign.status === "claimed")
       return (
         <RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8, backgroundColor: "black" }}
-          label={"Claimed"}
+          style={{
+            backgroundColor: "black",
+            borderColor: "black",
+          }}
+          label="Claimed"
+          leftIcon={
+            <img
+              style={{ height: 16, width: 16, marginRight: 8 }}
+              src={"green-check.png"}
+              alt={"green-check"}
+            ></img>
+          }
         />
       );
-    else if (campaignStatus === "enrolled")
+    else if (campaign.status === "enrolled")
       return (
         <RoundButton
-          onPress={enrollOrVerify}
+        onClick={() => dispatch(verifyRewards(campaign._id))}
           style={{
             marginTop: 8,
             backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
@@ -33,12 +47,12 @@ const CampaignModalDetail = ({ campaignStatus, enrollOrVerify, campaign, onClose
     else
       return (
         <RoundButton
-          onPress={enrollOrVerify}
+          onClick={() => dispatch(enrollToChallenge(campaign._id))}
           style={{ marginTop: 8 }}
           label={"Enroll"}
         />
       );
-  }, [campaignStatus, enrollOrVerify]);
+  }, [campaign, dispatch]);
 
   if (campaign)
     return (

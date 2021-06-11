@@ -30,7 +30,7 @@ function* verifyRewardsApi(action) {
     const apiPath = "/api/verify";
     const apiParams = { campaignId, address: accountAddress };
     const results = yield call(axios.post, apiPath, apiParams);
-    if (results.success) {
+    if (results.data.success) {
       // Refetch campaigns
       yield put(fetchCampaigns());
     } else {
@@ -43,12 +43,13 @@ function* verifyRewardsApi(action) {
 
 function* enrollToChallengeApi(action) {
   const { campaignId } = action.payload;
+  console.log("enrolled")
   try {
     const accountAddress = yield call(getAccountAddress);
     const apiPath = "/api/enroll";
     const apiParams = { campaignId, address: accountAddress };
     const results = yield call(axios.post, apiPath, apiParams);
-    if (results.success) {
+    if (results.data.success) {
       // Refetch campaigns
       yield put(fetchCampaigns());
     } else {
