@@ -3,6 +3,8 @@ import RoundButton from "../../components/round-button";
 import { animated, useSpring } from "@react-spring/web";
 import axios from "../../../utils/API";
 import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
+import { useDispatch } from "react-redux";
+import { fetchCampaigns } from "../../../services/redux/actions";
 
 const Campaign = ({ onSelect, campaign }) => {
   const [isHovering, setIsHovering] = useState(false);
@@ -14,13 +16,14 @@ const Campaign = ({ onSelect, campaign }) => {
       duration: 100,
     },
   });
+  const dispatch = useDispatch();
 
   const selectCampaign = useCallback(() => {
-    console.log(campaign)
+    console.log(campaign);
     onSelect(campaign);
   }, [onSelect, campaign]);
 
-  const enrollOrVerify = useCallback (() => {
+  const enrollOrVerify = useCallback(() => {
     if (!campaignStatus) {
       getConnectedPublicAddress()
         .then((accounts) => {
@@ -108,29 +111,31 @@ const Campaign = ({ onSelect, campaign }) => {
             {campaign.reward}
           </div>
         </div>
-        {campaignStatus === "claimed" &&         
+        {campaignStatus === "claimed" && (
           <RoundButton
             onPress={enrollOrVerify}
-            style={{ marginTop: 8,
-              backgroundColor: "black", 
-              }}
-            label={"Claimed"}/>
-        }
-        {campaignStatus === "enrolled" &&        
+            style={{ marginTop: 8, backgroundColor: "black" }}
+            label={"Claimed"}
+          />
+        )}
+        {campaignStatus === "enrolled" && (
           <RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8,
-            backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
-            borderColor: `${`rgba(55, 215, 100, 1)`}`
+            onPress={enrollOrVerify}
+            style={{
+              marginTop: 8,
+              backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
+              borderColor: `${`rgba(55, 215, 100, 1)`}`,
             }}
-          label={"Claim"}/>
-        }
-        {campaignStatus !== "enrolled" &&campaignStatus !== "claimed" &&   
-        <RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8 }}
-          label={"Enroll"}
-        />}
+            label={"Claim"}
+          />
+        )}
+        {campaignStatus !== "enrolled" && campaignStatus !== "claimed" && (
+          <RoundButton
+            onPress={enrollOrVerify}
+            style={{ marginTop: 8 }}
+            label={"Enroll"}
+          />
+        )}
       </div>
     </animated.div>
   );

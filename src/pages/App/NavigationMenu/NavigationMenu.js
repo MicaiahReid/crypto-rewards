@@ -7,11 +7,10 @@ import Header from "../../components/header";
 import Landing from "../../Landing";
 import CampaignModalDetail from "../../CampaignModalDetail";
 import { animated, useSpring } from "@react-spring/web";
-import axios from "../../../utils/API";
-import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
+import { useSelector } from "react-redux";
+import { getCampaigns } from "../../../services/redux/selectors";
 
 const NavigationMenu = () => {
-  const [campaigns, setCampaigns] = useState([]);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [showHome, setShowHome] = useState(true);
   const [selectedCampaign, setSelectedCampaign] = useState(undefined);
@@ -19,27 +18,7 @@ const NavigationMenu = () => {
     opacity: 1,
     onRest: () => setShowHome(false),
   }));
-
-  useEffect( () => {
-    getConnectedPublicAddress()
-      .then((accounts) => {
-        let getPath = "/api/campaigns";
-        if (accounts.length > 0) {
-          getPath += "/" + accounts[0];
-        }
-        axios
-          .get(getPath)
-          .then((res) => {
-            setCampaigns(res.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  })
+  const campaigns = useSelector(getCampaigns);
 
   const triggerDismissCampaignModal = useCallback(
     () => setSelectedCampaign(undefined),
