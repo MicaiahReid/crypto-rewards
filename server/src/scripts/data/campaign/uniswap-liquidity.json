@@ -1,8 +1,9 @@
 {
+  "protocol": "Uniswap",
   "title": "Uniswap Liquidity",
   "shortDescription": "Fund Your First Market",
   "subtitle": "",
   "reward": "1 UNI",
-  "longDescription": "### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!",
+  "longDescription": "\n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!",
   "icon": "uniswap-logo.svg"
 }

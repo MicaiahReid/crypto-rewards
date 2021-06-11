@@ -16,6 +16,7 @@ const Campaign = ({ onSelect, campaign }) => {
   });
 
   const selectCampaign = useCallback(() => {
+    console.log(campaign)
     onSelect(campaign);
   }, [onSelect, campaign]);
 
@@ -107,15 +108,29 @@ const Campaign = ({ onSelect, campaign }) => {
             {campaign.reward}
           </div>
         </div>
+        {campaignStatus === "claimed" &&         
+          <RoundButton
+            onPress={enrollOrVerify}
+            style={{ marginTop: 8,
+              backgroundColor: "black", 
+              }}
+            label={"Claimed"}/>
+        }
+        {campaignStatus === "enrolled" &&        
+          <RoundButton
+          onPress={enrollOrVerify}
+          style={{ marginTop: 8,
+            backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
+            borderColor: `${`rgba(55, 215, 100, 1)`}`
+            }}
+          label={"Claim"}/>
+        }
+        {campaignStatus !== "enrolled" &&campaignStatus !== "claimed" &&   
         <RoundButton
           onPress={enrollOrVerify}
           style={{ marginTop: 8 }}
-          label={campaignStatus === "claimed"
-          ? "Claimed"
-          : campaignStatus === "enrolled"
-          ? "Claim"
-          : "Enroll"}
-        />
+          label={"Enroll"}
+        />}
       </div>
     </animated.div>
   );
