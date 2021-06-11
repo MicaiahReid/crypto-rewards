@@ -30,6 +30,7 @@ const NavigationMenu = () => {
         axios
           .get(getPath)
           .then((res) => {
+            console.log(res.data);
             setCampaigns(res.data);
           })
           .catch((error) => {
@@ -39,7 +40,8 @@ const NavigationMenu = () => {
       .catch((error) => {
         console.log(error);
       });
-  })
+  }, [])
+
 
   const triggerDismissCampaignModal = useCallback(
     () => setSelectedCampaign(undefined),
@@ -101,7 +103,7 @@ const NavigationMenu = () => {
         />
       </div>
       {renderPages()}
-      {renderLanding()}
+      {/* {renderLanding()} */}
       {renderCampaignModal()}
     </div>
   );
