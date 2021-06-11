@@ -114,7 +114,7 @@ const Achievements = (campaigns) => {
         >
           {<RoundButton style={{
             backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
-            borderColor: "white"
+            borderColor: `${`rgba(55, 215, 100, 1)`}`
             }}
         label="Claimed" />}
         </TableCell>
