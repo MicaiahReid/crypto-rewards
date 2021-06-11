@@ -11,12 +11,15 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ReactMarkdown from "react-markdown";
+import axios from "../../utils/API";
+import getConnectedPublicAddress from "../../utils/MetaMaskUtils";
 
 class Campaign extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: false,
+      campaignStatus: props.campaign.status,
     };
   }
   useStyles() {
@@ -55,8 +58,36 @@ class Campaign extends React.Component {
     }));
   }
 
-  enroll(id) {
-    console.log(id);
+  enrollOrVerify(campaignId) {
+    if (!this.state.campaignStatus) {
+      getConnectedPublicAddress()
+        .then((accounts) => {
+          if (accounts.length > 0) {
+            axios
+              .post("/api/enroll", {
+                campaignId: campaignId,
+                address: accounts[0],
+              })
+              .then(({ data }) => {
+                if (data.success) {
+                  this.setState({ campaignStatus: "enrolled" });
+                } else {
+                  console.log("error enrolling user");
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            console.log("user must link wallet"); // TODO prompt to make wallet
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (this.state.campaignStatus === "enrolled") {
+      console.log("verify");
+    }
   }
   handleExpandClick() {
     this.setState({
@@ -107,13 +138,13 @@ class Campaign extends React.Component {
           </Collapse>
           <CardActions>
             <Button
-              onClick={(e) => this.enroll(campaign.id)}
-              colot="primary"
+              onClick={(e) => this.enrollOrVerify(campaign._id)}
+              color="primary"
               variant="contained"
             >
-              {campaign.status === "claimed"
+              {this.state.campaignStatus === "claimed"
                 ? "Claimed"
-                : campaign.status === "enrolled"
+                : this.state.campaignStatus === "enrolled"
                 ? "Claim"
                 : "Enroll"}
             </Button>
