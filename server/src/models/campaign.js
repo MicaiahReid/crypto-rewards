@@ -44,6 +44,14 @@ const campaignSchema = mongoose.Schema(
     address: {
       type: String,
     },
+    minimumValue: {
+      // minimum amount of the coin that needs to be traded to get paid out
+      type: Number,
+    },
+    rewardDecimal: {
+      // minimum amount of the coin that needs to be traded to get paid out
+      type: Number,
+    },
   },
   {
     timestamps: true,

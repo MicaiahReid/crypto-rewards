@@ -2,9 +2,11 @@
   "title": "Uniswap Swap",
   "shortDescription": "Make Your First Swap",
   "subtitle": "",
-  "reward": ".5 UNI",
+  "reward": ".0001 UNI",
   "longDescription": "### Perform these steps to earn your reward!  \n1. Click the Enroll button below.  \n2. Navigate to [Uniswap's trading site.](https://app.uniswap.org/#/swap)  \n3. Trade 10 Uniswap  \n4. Come back here and click Verify.  \n5. You should see your reward in minutes!",
   "icon": "uniswap-logo.svg",
   "verificationType": "trade",
-  "address": "0xtestaddress"
+  "address": "0x7a250d5630b4cf539739df2c5dacb4c659f2488d",
+  "minimumValue": 0.01,
+  "rewardDecimal": 0.0001
 }
