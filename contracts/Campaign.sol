@@ -1,8 +1,35 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 
-contract Campaigns is Ownable {
+
+//factory
+contract CreateCampaigns {
+    Campaign[] public campaigns;
+
+    event CampaignCreated(
+        address campaignAddress,
+        uint256 rewardunit,
+        uint256 startdate,
+        uint256 endate
+        );
+
+    function createCampaign(
+        uint256 rewardunit,
+        uint256 startdate,
+        uint256 endate
+        ) external {Campaign campaign = new Campaign(
+            rewardunit,
+            startdate,
+            endate
+            );
+        Campaign.push(campaign);
+        emit CampaignCreated(address(campaignAddress), rewardunit,startdate,endate);
+    }
+}
+
+contract Campaign is Ownable {
     event Deposited(uint256 indexed campaignID, uint256 amount);
     event Withdrawn(address indexed claim, uint256 payoutAmount);
 
@@ -40,9 +67,6 @@ contract Campaigns is Ownable {
     function deposit(uint256 _amount) private {
         //should this be two functions or one
         address(this).balance += _amount;
-        //create mappings for campapign that has campapign id and campapign contract addresses
-        //deposit function that creates a new contract instance for the protocol
-        //deposit function should also set msg.sender as owner of new contract
         emit Deposited(_amount);
     }
 
@@ -56,9 +80,8 @@ contract Campaigns is Ownable {
             msg.sender.transfer(rewardunit);
             //emit reward claimed event here
             emit Withdrawn(msg.sender, rewardunit);
-        } else {
-            //handle cases that doesn't meet the payout criterias
         }
+        require(_verification == true, "please complete the tasks to claim the rewards for this challenge.");
     }
 
     function endCampaign() public onlyOwner {
