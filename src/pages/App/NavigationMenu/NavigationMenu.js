@@ -78,7 +78,7 @@ const NavigationMenu = () => {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={!!toast}
         onClose={triggerDismissToast}
-        autoHideDuration={4000}
+        autoHideDuration={6000}
       >
         <SnackbarContent
           style={{
