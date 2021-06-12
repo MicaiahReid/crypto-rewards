@@ -29,8 +29,8 @@ const Campaign = ({ campaign }) => {
       return (
         <RoundButton
           style={{
-            backgroundColor: "black",
-            borderColor: "black",
+            backgroundColor: "#414141",
+            borderColor: "#414141",
           }}
           label="Claimed"
           leftIcon={

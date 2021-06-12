@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -80,18 +80,41 @@ const Achievements = ({ campaigns }) => {
     );
   }, []);
 
+  const filteredCampaigns = useMemo(
+    () =>
+      campaigns.filter(
+        (campaign) =>
+          campaign.status === "claimed" || campaign.status === "enrolled"
+      ),
+    [campaigns]
+  );
+
   return (
     <TableContainer component={Box}>
       <Table className={useStyles.table} aria-label="simple table">
         <TableHead>{renderHeader()}</TableHead>
-        <TableBody>
-          {campaigns.map((campaign) => {
-            if (campaign.status === "claimed" || campaign.status === "enrolled")
+        {filteredCampaigns.length > 0 ? (
+          <TableBody>
+            {filteredCampaigns.map((campaign) => {
               return <CustomTableRow key={campaign._id} campaign={campaign} />;
-            else return null;
-          })}
-        </TableBody>
+            })}
+          </TableBody>
+        ) : null}
       </Table>
+      {filteredCampaigns.length > 0 ? null : (
+        <div
+          style={{
+            display: "flex",
+            marginTop: 64,
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: 20,
+            fontWeight: "600",
+          }}
+        >
+          {"Go checkout the challenges to earn rewards!"}
+        </div>
+      )}
     </TableContainer>
   );
 };

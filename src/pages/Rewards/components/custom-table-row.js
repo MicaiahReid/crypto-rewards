@@ -21,13 +21,14 @@ const CustomTableRow = ({ campaign }) => {
           <div style={{ display: "flex", alignItems: "flex-end" }}>
             <RoundButton
               style={{
-                backgroundColor: "black",
-                borderColor: "black",
+                backgroundColor: "#414141",
+                borderColor: "#414141",
               }}
+              size={"small"}
               label="Claimed"
               leftIcon={
                 <img
-                  style={{ height: 16, width: 16, marginRight: 8 }}
+                  style={{ height: 15, width: 15, marginRight: 8 }}
                   src={"green-check.png"}
                   alt={"green-check"}
                 ></img>
@@ -38,7 +39,7 @@ const CustomTableRow = ({ campaign }) => {
       );
     } else if (campaign.status === "enrolled") {
       return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex" }}>
           <div style={{ display: "flex", alignItems: "flex-end" }}>
             <RoundButton
               onPress={() => dispatch(verifyRewards(campaign._id))}
@@ -46,6 +47,7 @@ const CustomTableRow = ({ campaign }) => {
                 backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
                 borderColor: `${`rgba(55, 215, 100, 1)`}`,
               }}
+              size={"small"}
               label="Claim"
             />
           </div>{" "}
