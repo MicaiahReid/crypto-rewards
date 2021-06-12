@@ -2,7 +2,7 @@ import { all, takeLatest, put, call } from "redux-saga/effects";
 import { ActionTypes } from "./redux/index";
 import axios from "../utils/API";
 import getConnectedPublicAddress from "../utils/MetaMaskUtils";
-import { setCampaigns, fetchCampaigns } from "./redux/actions";
+import { setCampaigns, fetchCampaigns, setToast } from "./redux/actions";
 
 function* getAccountAddress() {
   const accounts = yield call(getConnectedPublicAddress);
@@ -34,10 +34,14 @@ function* verifyRewardsApi(action) {
       // Refetch campaigns
       yield put(fetchCampaigns());
     } else {
-      console.log("Failed to verify rewards for:", campaignId);
+      throw new Error("Failed to verify rewards.");
     }
   } catch (error) {
-    console.log("Error verifying rewards:", error);
+    const toast = {
+      message: `Failed to verify rewards. Reason: ${error.message}`,
+      status: "error",
+    };
+    yield put(setToast(toast));
   }
 }
 
@@ -52,10 +56,14 @@ function* enrollToChallengeApi(action) {
       // Refetch campaigns
       yield put(fetchCampaigns());
     } else {
-      console.log("Failed to enroll to campaign:", campaignId);
+      throw new Error("Failed to enroll to campaign.");
     }
   } catch (error) {
-    console.log("Error enrolling to campaign:", error);
+    const toast = {
+      message: `Failed to enroll to campaign. Reason: ${error.message}`,
+      status: "error",
+    };
+    yield put(setToast(toast));
   }
 }
 

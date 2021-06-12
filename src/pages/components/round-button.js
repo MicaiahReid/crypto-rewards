@@ -45,7 +45,7 @@ const RoundButton = ({
           color: "white",
         };
     }
-  }, [size]);
+  }, [size, leftIcon]);
 
   const buttonStyle = useCallback(() => {
     switch (type) {

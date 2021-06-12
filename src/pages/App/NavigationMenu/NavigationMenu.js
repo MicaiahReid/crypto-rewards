@@ -8,15 +8,15 @@ import Landing from "../../Landing";
 import CampaignModalDetail from "../../CampaignModalDetail";
 import { animated, useSpring } from "@react-spring/web";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  dismissLanding,
-  selectCampaign,
-} from "../../../services/redux/actions";
+import { dismissLanding, setToast } from "../../../services/redux/actions";
 import {
   getCampaigns,
   getShowLanding,
   getSelectedCampaign,
+  getToast,
 } from "../../../services/redux/selectors";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 const NavigationMenu = () => {
   const dispatch = useDispatch();
@@ -28,6 +28,12 @@ const NavigationMenu = () => {
   const campaigns = useSelector(getCampaigns);
   const showLanding = useSelector(getShowLanding);
   const selectedCampaign = useSelector(getSelectedCampaign);
+  const toast = useSelector(getToast);
+
+  const triggerDismissToast = useCallback(
+    () => dispatch(setToast(undefined)),
+    [dispatch]
+  );
 
   const renderPages = useCallback(() => {
     switch (selectedTabIndex) {
@@ -57,6 +63,41 @@ const NavigationMenu = () => {
     );
   }, [selectedCampaign]);
 
+  const renderToast = useCallback(() => {
+    let toastBackgroundColor = "#414141";
+    if (toast) {
+      switch (toast.status) {
+        case "error":
+          toastBackgroundColor = "#F55959";
+          break;
+        default:
+      }
+    }
+    return (
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={!!toast}
+        onClose={triggerDismissToast}
+        autoHideDuration={4000}
+      >
+        <SnackbarContent
+          style={{
+            backgroundColor: toastBackgroundColor,
+            borderRadius: 8,
+            color: "white",
+          }}
+          message={
+            <div
+              style={{ fontFamily: "Poppins", fontWeight: "600", fontSize: 14 }}
+            >
+              {toast && toast.message}
+            </div>
+          }
+        />
+      </Snackbar>
+    );
+  }, [toast, triggerDismissToast]);
+
   return (
     <div
       style={{
@@ -80,6 +121,7 @@ const NavigationMenu = () => {
       {renderPages()}
       {renderLanding()}
       {renderCampaignModal()}
+      {renderToast()}
     </div>
   );
 };

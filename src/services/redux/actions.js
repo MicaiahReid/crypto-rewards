@@ -36,3 +36,10 @@ export const selectCampaign = (campaign) => ({
 export const dismissLanding = () => ({
   type: ActionTypes.DISMISS_LANDING,
 });
+
+export const setToast = (toast) => ({
+  type: ActionTypes.SET_TOAST,
+  payload: {
+    toast,
+  },
+});

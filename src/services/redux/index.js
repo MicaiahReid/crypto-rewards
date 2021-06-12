@@ -9,12 +9,14 @@ export const ActionTypes = {
   ENROLL_TO_CHALLENGE: "ENROLL_TO_CHALLENGE",
   DISMISS_LANDING: "DISMISS_LANDING",
   SELECT_CAMPAIGN: "SELECT_CAMPAIGN",
+  SET_TOAST: "SET_TOAST",
 };
 
 const appState = {
   campaigns: [],
   showLanding: true,
   selectedCampaign: undefined,
+  toast: undefined,
 };
 
 // Reducers
@@ -34,6 +36,11 @@ const appReducer = (state = appState, action) => {
       return {
         ...state,
         selectedCampaign: action.payload.campaign,
+      };
+    case ActionTypes.SET_TOAST:
+      return {
+        ...state,
+        toast: action.payload.toast,
       };
     default:
       return state;
