@@ -27,7 +27,7 @@ const Achievements = (campaigns) => {
   const dispatch = useDispatch();
 
   const handleRowClick = () => {
-    console.log("Test");
+    console.log("Clicked row");
   };
 
   const renderButton = useCallback(
@@ -127,7 +127,6 @@ const Achievements = (campaigns) => {
 
   const renderRow = useCallback(
     (row) => {
-      console.log(row);
       return (
         <TableRow key={row._id} onClick={handleRowClick}>
           <TableCell

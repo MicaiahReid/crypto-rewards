@@ -43,7 +43,6 @@ function* verifyRewardsApi(action) {
 
 function* enrollToChallengeApi(action) {
   const { campaignId } = action.payload;
-  console.log("enrolled")
   try {
     const accountAddress = yield call(getAccountAddress);
     const apiPath = "/api/enroll";

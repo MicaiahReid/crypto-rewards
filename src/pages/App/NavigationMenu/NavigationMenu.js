@@ -54,38 +54,6 @@ const NavigationMenu = () => {
     ) : null;
   }, [showLanding, fadeApi, fadeStyle]);
 
-  // const enrollOrVerify = useCallback(() => {
-  //   if (!campaignStatus) {
-  //     getConnectedPublicAddress()
-  //       .then((accounts) => {
-  //         if (accounts.length > 0) {
-  //           axios
-  //             .post("/api/enroll", {
-  //               campaignId: selectedCampaign._id,
-  //               address: accounts[0],
-  //             })
-  //             .then(({ data }) => {
-  //               if (data.success) {
-  //                 setCampaignStatus("enrolled");
-  //               } else {
-  //                 console.log("error enrolling user");
-  //               }
-  //             })
-  //             .catch((error) => {
-  //               console.log(error);
-  //             });
-  //         } else {
-  //           console.log("user must link wallet"); // TODO prompt to make wallet
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   } else if (campaignStatus === "enrolled") {
-  //     console.log("verify");
-  //   }
-  // }, [campaignStatus, selectedCampaign]);
-
   const renderCampaignModal = useCallback(() => {
     return (
       <CampaignModalDetail
