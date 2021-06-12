@@ -3,19 +3,20 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./pages/App/App";
 import reportWebVitals from "./reportWebVitals";
-import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
-    shape: {
-        borderRadius: 12
-    }
-})
+  shape: {
+    borderRadius: 12,
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <MuiThemeProvider theme={theme}>
-        <App/>
-    </MuiThemeProvider>,  </React.StrictMode>,
+      <App />
+    </MuiThemeProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

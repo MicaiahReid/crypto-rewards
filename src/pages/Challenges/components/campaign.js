@@ -1,10 +1,14 @@
 import React, { useCallback, useState } from "react";
 import RoundButton from "../../components/round-button";
 import { animated, useSpring } from "@react-spring/web";
-import axios from "../../../utils/API";
-import getConnectedPublicAddress from "../../../utils/MetaMaskUtils";
+import { useDispatch } from "react-redux";
+import {
+  enrollToChallenge,
+  verifyRewards,
+  selectCampaign,
+} from "../../../services/redux/actions";
 
-const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify}) => {
+const Campaign = ({ campaign }) => {
   const [isHovering, setIsHovering] = useState(false);
   const animationStyle = useSpring({
     translateY: isHovering ? -4 : 0,
@@ -14,34 +18,51 @@ const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify}) => {
     },
   });
 
-  const selectCampaign = useCallback(() => {
-    console.log(campaign)
-    onSelect(campaign);
-  }, [onSelect, campaign]);
+  const dispatch = useDispatch();
+
+  const triggerSelectCampaign = useCallback(() => {
+    dispatch(selectCampaign(campaign));
+  }, [dispatch, campaign]);
 
   const renderButton = useCallback(() => {
-        if(campaignStatus === "claimed")         
-        return ( <RoundButton
-            onPress={enrollOrVerify}
-            style={{ marginTop: 8,
-              backgroundColor: "black", 
-              }}
-            label={"Claimed"}/>);
-        else if (campaignStatus === "enrolled")      
-        return (<RoundButton
-          onPress={enrollOrVerify}
-          style={{ marginTop: 8,
-            backgroundColor: `${`rgba(55, 215, 100, 1)`}`, 
-            borderColor: `${`rgba(55, 215, 100, 1)`}`
-            }}
-          label={"Claim"}/>);
-        else  
-        return ( <RoundButton
-            onPress={enrollOrVerify}
-            style={{ marginTop: 8 }}
-            label={"Enroll"}
-          />);
-  }, [campaignStatus, enrollOrVerify]);
+    if (campaign.status === "claimed")
+      return (
+        <RoundButton
+          style={{
+            backgroundColor: "#414141",
+            borderColor: "#414141",
+          }}
+          label="Claimed"
+          leftIcon={
+            <img
+              style={{ height: 16, width: 16, marginRight: 8 }}
+              src={"green-check.png"}
+              alt={"green-check"}
+            ></img>
+          }
+        />
+      );
+    else if (campaign.status === "enrolled")
+      return (
+        <RoundButton
+          onPress={() => dispatch(verifyRewards(campaign._id))}
+          style={{
+            marginTop: 8,
+            backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
+            borderColor: `${`rgba(55, 215, 100, 1)`}`,
+          }}
+          label={"Claim"}
+        />
+      );
+    else
+      return (
+        <RoundButton
+          onPress={() => dispatch(enrollToChallenge(campaign._id))}
+          style={{ marginTop: 8 }}
+          label={"Enroll"}
+        />
+      );
+  }, [campaign, dispatch]);
 
   return (
     <animated.div
@@ -60,38 +81,41 @@ const Campaign = ({ onSelect, campaign, campaignStatus, enrollOrVerify}) => {
         marginBottom: 24,
         ...animationStyle,
       }}
-      onClick={selectCampaign}
+      onClick={triggerSelectCampaign}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
     >
       {/** Card background */}
-      <img
-        style={{ flex: 1 }}
-        src={campaign.icon}
-        alt={"campaign-card"}
-      ></img>
+      <img style={{ flex: 1 }} src={campaign.icon} alt={"campaign-card"}></img>
       {/** Card content */}
       <div
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
+          top: 8,
+          left: 8,
+          bottom: 8,
+          right: 8,
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
           alignItems: "flex-start",
-          padding: 24,
+          padding: 16,
+          borderRadius: 10,
+          background:
+            "linear-gradient(rgba(45, 45, 45, 0), rgba(45, 45, 45, 0.73))",
         }}
       >
-        <div style={{ color: "white", fontSize: 20, fontWeight: "800", marginBottom: 4  }}>
+        <div
+          style={{
+            color: "white",
+            fontSize: 20,
+            fontWeight: "800",
+          }}
+        >
           {campaign.protocol}
         </div>
-        <div style={{ color: "white", fontSize: 13, marginBottom: 4  }}>
-          {campaign.title}
-        </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ color: "white", fontSize: 13 }}>{campaign.title}</div>
+        <div style={{ display: "flex", marginBottom: 4 }}>
           <div style={{ color: "white", fontSize: 13, marginRight: 4 }}>
             {"Rewards:"}
           </div>

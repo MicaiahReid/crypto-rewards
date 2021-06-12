@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,10 +7,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Box from "@material-ui/core/Box";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import RoundButton from "../components/round-button";
+import CustomTableRow from "./components/custom-table-row";
 
-const Achievements = (campaigns) => {
+const Achievements = ({ campaigns }) => {
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
@@ -22,49 +21,19 @@ const Achievements = (campaigns) => {
     },
   });
 
-  const handleRowClick = () => {
-    console.log("Test");
-  };
-
-  const renderButton = useCallback((row) => {
-    return (
-      <div sytle={{ display: "flex", justifyContent: "center" }}>
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
-          <RoundButton
-            style={{
-              backgroundColor: "black",
-              borderColor: "black",
-            }}
-            label="Claimed"
-            leftIcon={
-              <img
-                style={{ height: 16, width: 16, marginRight: 8 }}
-                src={"green-check.png"}
-                alt={"green-check"}
-              ></img>
-            }
-          />
-
-          {/* <RoundButton
-            style={{
-                backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
-                borderColor: `${`rgba(55, 215, 100, 1)`}`,
-            }}
-            label="Claim"
-            /> */}
-        </div>{" "}
-      </div>
-    );
-  }, []);
-
   const renderHeader = useCallback(() => {
     return (
-      <TableRow style={{ backgroundColor: `${`rgba(89, 93, 149, 0.04)`}` }}>
+      <TableRow
+        style={{
+          backgroundColor: `${`rgba(89, 93, 149, 0.04)`}`,
+        }}
+      >
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           PROTOCOL
@@ -72,8 +41,9 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           CHALLENGE
@@ -81,8 +51,9 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           REWARD
@@ -90,8 +61,9 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           STATUS
@@ -99,74 +71,50 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         ></TableCell>
       </TableRow>
     );
   }, []);
 
-  const renderRow = useCallback(
-    (row) => {
-      console.log(row);
-      return (
-        <TableRow key={row._id} onClick={handleRowClick}>
-          <TableCell
-            component="th"
-            scope="row"
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {row.protocol}
-          </TableCell>
-          <TableCell
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {row.title}
-          </TableCell>
-          <TableCell
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {row.reward}
-          </TableCell>
-          <TableCell
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {renderButton(row)}
-          </TableCell>
-          <TableCell>
-            <ChevronRightIcon
-              style={{ color: `${`rgba(175, 192, 216, 1)`}` }}
-            />
-          </TableCell>
-        </TableRow>
-      );
-    },
-    [renderButton]
+  const filteredCampaigns = useMemo(
+    () =>
+      campaigns.filter(
+        (campaign) =>
+          campaign.status === "claimed" || campaign.status === "enrolled"
+      ),
+    [campaigns]
   );
 
   return (
     <TableContainer component={Box}>
       <Table className={useStyles.table} aria-label="simple table">
         <TableHead>{renderHeader()}</TableHead>
-        <TableBody>
-          {campaigns.campaigns.map((row) => {
-            return renderRow(row);
-          })}
-        </TableBody>
+        {filteredCampaigns.length > 0 ? (
+          <TableBody>
+            {filteredCampaigns.map((campaign) => {
+              return <CustomTableRow key={campaign._id} campaign={campaign} />;
+            })}
+          </TableBody>
+        ) : null}
       </Table>
+      {filteredCampaigns.length > 0 ? null : (
+        <div
+          style={{
+            display: "flex",
+            marginTop: 64,
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: 20,
+            fontWeight: "600",
+          }}
+        >
+          {"Go checkout the challenges to earn rewards!"}
+        </div>
+      )}
     </TableContainer>
   );
 };

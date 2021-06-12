@@ -22,7 +22,7 @@ const RoundButton = ({
       case "small":
         return {
           height: 24,
-          padding: "0px 20px",
+          padding: `0px ${!!leftIcon ? "12" : "18"}px`,
           fontWeight: "600",
           fontSize: 12,
           color: "white",
@@ -45,7 +45,7 @@ const RoundButton = ({
           color: "white",
         };
     }
-  }, [size]);
+  }, [size, leftIcon]);
 
   const buttonStyle = useCallback(() => {
     switch (type) {

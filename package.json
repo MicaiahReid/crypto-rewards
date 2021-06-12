@@ -18,7 +18,9 @@
     "react-scripts": "4.0.3",
     "react-spring": "^9.2.3",
     "react-toolbox": "^2.0.0-beta.13",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "react-redux": "^7.2.3",
+    "redux-saga": "^1.1.3"
   },
   "scripts": {
     "start": "react-scripts start & yarn --cwd ./server start",
