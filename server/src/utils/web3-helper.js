@@ -33,7 +33,7 @@ exports.getTransactionInRange = async function (
       console.log("failed to get block: " + blockNum);
     }
   }
-  return "transaction not found";
+  return "Transaction not found. If you're sure you made the transaction, check the status on etherscan to ensure it was successful.";
 };
 
 exports.getTransactionReceipt = eth.getTransactionReceipt;

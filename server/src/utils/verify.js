@@ -43,15 +43,14 @@ async function verifyTrade(data) {
           const exchangeRate = weiSpent / tradedAmount;
           return data.rewardDecimal * exchangeRate;
         } else {
-          return "not enough funds traded";
+          return "Not enough funds traded to earn reward.";
         }
       } else {
-        return "could not find transfer call on transaction";
+        return "Could not find transfer call on transaction. Are you sure you traded correctly?";
       }
     } else {
-      return "could not verify transaction amount";
+      return "Could not verify transaction amount.";
     }
-    return true;
   }
   return tx;
 }

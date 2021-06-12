@@ -23,7 +23,7 @@ exports.enroll = async (req, res) => {
           address +
           " in campaign " +
           campaignId +
-          " at block" +
+          " at block " +
           enrollBlock
       );
       await userCampaignInst
@@ -41,7 +41,7 @@ exports.enroll = async (req, res) => {
     }
   } else {
     return res.status(400).json({
-      error: "user not found",
+      error: "Could not find user. Please connect your wallet.",
     });
   }
 };
@@ -85,7 +85,7 @@ exports.verify = async (req, res) => {
             userCampaignInst.user.address +
             " in campaign " +
             campaignId +
-            " at block" +
+            " at block " +
             verifyBlock
         );
         // and not let's verify!
@@ -101,7 +101,7 @@ exports.verify = async (req, res) => {
         } else {
           return res.status(400).json({
             error:
-              "failed to verify " +
+              "Failed to verify " +
               userCampaignInst.campaign.verificationType +
               ". " +
               payout,
@@ -114,12 +114,13 @@ exports.verify = async (req, res) => {
       }
     } else {
       return res.status(400).json({
-        error: "user not enrolled in campaign",
+        error:
+          "User not enrolled in campaign. Please enroll before claiming your reward.",
       });
     }
   } else {
     return res.status(400).json({
-      error: "user not found",
+      error: "Could not find user. Please connect your wallet.",
     });
   }
 };

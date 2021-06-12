@@ -38,7 +38,7 @@ function* verifyRewardsApi(action) {
     }
   } catch (error) {
     const toast = {
-      message: `Failed to claim rewards. Reason: ${error.message}`,
+      message: `Failed to claim rewards. Reason: ${error.response.data.error}`,
       status: "error",
     };
     yield put(setToast(toast));
