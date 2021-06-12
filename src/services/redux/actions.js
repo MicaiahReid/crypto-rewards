@@ -25,3 +25,7 @@ export const enrollToChallenge = (campaignId) => ({
     campaignId,
   },
 });
+
+export const dismissLanding = () => ({
+  type: ActionTypes.DISMISS_LANDING,
+});

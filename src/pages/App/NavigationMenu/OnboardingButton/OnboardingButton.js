@@ -1,11 +1,10 @@
-import MetaMaskOnboarding from '@metamask/onboarding';
-import React from 'react';
+import MetaMaskOnboarding from "@metamask/onboarding";
+import React from "react";
 import RoundButton from "../../../components/round-button";
 import axios from "../../../../utils/API";
 
-const ONBOARD_TEXT = 'Click here to install MetaMask!';
-const CONNECT_TEXT = 'Connect';
-
+const ONBOARD_TEXT = "Click here to install MetaMask!";
+const CONNECT_TEXT = "Connect";
 
 export default function OnboardingButton() {
   const [buttonText, setButtonText] = React.useState(ONBOARD_TEXT);
@@ -49,7 +48,11 @@ export default function OnboardingButton() {
               console.log(error);
             });
         }
-        setButtonText(accounts[0].slice(0,6)+'...' + accounts[0].slice(accounts[0].length-4,accounts[0].length));
+        setButtonText(
+          accounts[0].slice(0, 6) +
+            "..." +
+            accounts[0].slice(accounts[0].length - 4, accounts[0].length)
+        );
         setConnected(true);
         onboarding.current.stopOnboarding();
       } else {
@@ -85,10 +88,23 @@ export default function OnboardingButton() {
   };
 
   const renderImage = () => {
-   return( <img style={{  height:16, width: 16, marginRight: 8 }} src={"green-check.png"} alt={"green-check"}></img> );
-  }
+    return (
+      <img
+        style={{ height: 16, width: 16, marginRight: 8 }}
+        src={"green-check.png"}
+        alt={"green-check"}
+      ></img>
+    );
+  };
 
-  return (
-    isConnected ? <RoundButton type="outline" label={buttonText} onClick={onClick} leftIcon={renderImage()}/> : <RoundButton type="solid" label={buttonText} onClick={onClick}/>
+  return isConnected ? (
+    <RoundButton
+      type="outline"
+      label={buttonText}
+      onClick={onClick}
+      leftIcon={renderImage()}
+    />
+  ) : (
+    <RoundButton type="solid" label={buttonText} onPress={onClick} />
   );
 }

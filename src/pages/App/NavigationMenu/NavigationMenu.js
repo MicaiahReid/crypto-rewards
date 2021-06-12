@@ -7,19 +7,23 @@ import Header from "../../components/header";
 import Landing from "../../Landing";
 import CampaignModalDetail from "../../CampaignModalDetail";
 import { animated, useSpring } from "@react-spring/web";
-import { useSelector } from "react-redux";
-import { getCampaigns } from "../../../services/redux/selectors";
+import { useSelector, useDispatch } from "react-redux";
+import { dismissLanding } from "../../../services/redux/actions";
+import {
+  getCampaigns,
+  getShowLanding,
+} from "../../../services/redux/selectors";
 
 const NavigationMenu = () => {
+  const dispatch = useDispatch();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [showHome, setShowHome] = useState(true);
   const [selectedCampaign, setSelectedCampaign] = useState(undefined);
   const [fadeStyle, fadeApi] = useSpring(() => ({
     opacity: 1,
-    onRest: () => setShowHome(false),
+    onRest: () => dispatch(dismissLanding()),
   }));
-  
   const campaigns = useSelector(getCampaigns);
+  const showLanding = useSelector(getShowLanding);
 
   const triggerDismissCampaignModal = useCallback(
     () => setSelectedCampaign(undefined),
@@ -43,12 +47,12 @@ const NavigationMenu = () => {
   }, [selectedTabIndex, campaigns]);
 
   const renderLanding = useCallback(() => {
-    return showHome ? (
+    return showLanding ? (
       <animated.div style={fadeStyle}>
         <Landing onDismiss={() => fadeApi.start({ opacity: 0 })} />
       </animated.div>
     ) : null;
-  }, [showHome, fadeApi, fadeStyle]);
+  }, [showLanding, fadeApi, fadeStyle]);
 
   // const enrollOrVerify = useCallback(() => {
   //   if (!campaignStatus) {
@@ -90,10 +94,7 @@ const NavigationMenu = () => {
         campaign={selectedCampaign}
       ></CampaignModalDetail>
     );
-  }, [
-    selectedCampaign,
-    triggerDismissCampaignModal,
-  ]);
+  }, [selectedCampaign, triggerDismissCampaignModal]);
 
   return (
     <div
@@ -116,7 +117,7 @@ const NavigationMenu = () => {
         />
       </div>
       {renderPages()}
-      {/* {renderLanding()} */}
+      {renderLanding()}
       {renderCampaignModal()}
     </div>
   );

@@ -20,12 +20,10 @@ const Campaign = ({ onSelect, campaign }) => {
   const dispatch = useDispatch();
 
   const selectCampaign = useCallback(() => {
-    console.log(campaign);
     onSelect(campaign);
   }, [onSelect, campaign]);
 
   const renderButton = useCallback(() => {
-    console.log("Button called here");
     if (campaign.status === "claimed")
       return (
         <RoundButton
@@ -92,15 +90,18 @@ const Campaign = ({ onSelect, campaign }) => {
       <div
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
+          top: 8,
+          left: 8,
+          bottom: 8,
+          right: 8,
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
           alignItems: "flex-start",
-          padding: 24,
+          padding: 16,
+          borderRadius: 10,
+          background:
+            "linear-gradient(rgba(45, 45, 45, 0), rgba(45, 45, 45, 0.73))",
         }}
       >
         <div
@@ -108,15 +109,12 @@ const Campaign = ({ onSelect, campaign }) => {
             color: "white",
             fontSize: 20,
             fontWeight: "800",
-            marginBottom: 4,
           }}
         >
           {campaign.protocol}
         </div>
-        <div style={{ color: "white", fontSize: 13, marginBottom: 4 }}>
-          {campaign.title}
-        </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ color: "white", fontSize: 13 }}>{campaign.title}</div>
+        <div style={{ display: "flex", marginBottom: 4 }}>
           <div style={{ color: "white", fontSize: 13, marginRight: 4 }}>
             {"Rewards:"}
           </div>

@@ -71,7 +71,9 @@ const Achievements = (campaigns) => {
       } else {
         return null;
       }
-    }, []);
+    },
+    [dispatch]
+  );
 
   const renderHeader = useCallback(() => {
     return (
@@ -179,11 +181,10 @@ const Achievements = (campaigns) => {
         <TableHead>{renderHeader()}</TableHead>
         <TableBody>
           {campaigns.campaigns.map((row) => {
-              if(row.status === "claimed" || row.status === "enrolled") 
-                return renderRow(row);
-              else
-                return null;
-           })}
+            if (row.status === "claimed" || row.status === "enrolled")
+              return renderRow(row);
+            else return null;
+          })}
         </TableBody>
       </Table>
     </TableContainer>

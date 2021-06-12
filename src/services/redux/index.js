@@ -7,10 +7,12 @@ export const ActionTypes = {
   SET_CAMPAIGNS: "SET_CAMPAIGNS",
   VERIFY_REWARDS: "VERIFY_REWARDS",
   ENROLL_TO_CHALLENGE: "ENROLL_TO_CHALLENGE",
+  DISMISS_LANDING: "DISMISS_LANDING",
 };
 
 const appState = {
   campaigns: [],
+  showLanding: true,
 };
 
 // Reducers
@@ -20,6 +22,11 @@ const appReducer = (state = appState, action) => {
       return {
         ...state,
         campaigns: action.payload.campaigns,
+      };
+    case ActionTypes.DISMISS_LANDING:
+      return {
+        ...state,
+        showLanding: false,
       };
     default:
       return state;

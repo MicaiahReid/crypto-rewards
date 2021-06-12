@@ -4,7 +4,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import ReactMarkdown from "react-markdown";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
-import Divider from "@material-ui/core/Divider";
 import RoundButton from "../components/round-button";
 import { useDispatch } from "react-redux";
 import { enrollToChallenge, verifyRewards } from "../../services/redux/actions";
@@ -13,7 +12,6 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
   const dispatch = useDispatch();
 
   const renderButton = useCallback(() => {
-    console.log("Button called here");
     if (campaign.status === "claimed")
       return (
         <RoundButton
@@ -60,7 +58,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
         aria-labelledby="challenge-dialog-title"
         open={open}
       >
-        <div style={{ padding: "0px 8px", minWidth: 450 }}>
+        <div style={{ padding: "0px px", minWidth: 450 }}>
           <MuiDialogTitle
             disableTypography
             dividers="true"
@@ -74,8 +72,8 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
               style={{
                 flex: 1,
                 fontSize: 25,
-                fontWeight: "700",
-                marginTop: 24,
+                fontWeight: "800",
+                marginTop: 16,
               }}
             >
               {campaign.protocol}
@@ -90,13 +88,19 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
             </div>
           </MuiDialogTitle>
 
-          <Divider style={{ marginBottom: 16 }} variant="middle" />
+          <div
+            style={{
+              height: 1,
+              backgroundColor: "#E6E7ED",
+              margin: "0px 20px",
+            }}
+          ></div>
 
           <DialogContent
             style={{
               display: "flex",
               flexDirection: "column",
-              marginTop: 16,
+              marginTop: 12,
               marginBottom: 40,
             }}
           >
@@ -116,7 +120,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
                   style={{
                     flex: 1,
                     fontSize: 15,
-                    fontWeight: "700",
+                    fontWeight: "800",
                   }}
                 >
                   Challenge
@@ -126,7 +130,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
                   style={{
                     color: `${`rgba(95, 107, 124, 1)`}`,
                     fontSize: 13,
-                    marginTop: 8,
+                    marginTop: 4,
                   }}
                 >
                   {campaign.title}
@@ -135,7 +139,6 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
                 <div
                   style={{
                     display: "flex",
-                    marginTop: 6,
                     alignItems: "center",
                   }}
                 >
@@ -165,29 +168,31 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
                 {renderButton()}
               </div>
             </div>
-            <div style={{ marginTop: 24 }}>
+            <div style={{ marginTop: 16 }}>
               <div
                 style={{
                   flex: 1,
                   fontSize: 15,
-                  fontWeight: "700",
+                  fontWeight: "800",
                 }}
               >
                 Instructions
               </div>
-              <ReactMarkdown>{campaign.longDescription}</ReactMarkdown>
+              <ReactMarkdown skipHtml={true} style={{ color: "red" }}>
+                {campaign.longDescription}
+              </ReactMarkdown>
             </div>
             <div
               style={{
                 flex: 1,
-                marginTop: 24,
+                marginTop: 16,
               }}
             >
               <div
                 style={{
                   flex: 1,
                   fontSize: 15,
-                  fontWeight: "700",
+                  fontWeight: "800",
                 }}
               >
                 About
@@ -196,7 +201,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
               <div
                 style={{
                   display: "flex",
-                  marginTop: 8,
+                  marginTop: 4,
                   alignItems: "center",
                 }}
               >
