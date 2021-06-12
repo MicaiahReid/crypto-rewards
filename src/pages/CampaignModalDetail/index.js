@@ -10,11 +10,10 @@ import { useDispatch } from "react-redux";
 import { enrollToChallenge, verifyRewards } from "../../services/redux/actions";
 
 const CampaignModalDetail = ({ campaign, onClose, open }) => {
-
   const dispatch = useDispatch();
 
   const renderButton = useCallback(() => {
-    console.log("Button called here")
+    console.log("Button called here");
     if (campaign.status === "claimed")
       return (
         <RoundButton
@@ -35,7 +34,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
     else if (campaign.status === "enrolled")
       return (
         <RoundButton
-        onClick={() => dispatch(verifyRewards(campaign._id))}
+          onPress={() => dispatch(verifyRewards(campaign._id))}
           style={{
             marginTop: 8,
             backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
@@ -47,7 +46,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
     else
       return (
         <RoundButton
-          onClick={() => dispatch(enrollToChallenge(campaign._id))}
+          onPress={() => dispatch(enrollToChallenge(campaign._id))}
           style={{ marginTop: 8 }}
           label={"Enroll"}
         />

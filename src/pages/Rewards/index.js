@@ -9,6 +9,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Box from "@material-ui/core/Box";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import RoundButton from "../components/round-button";
+import { useDispatch } from "react-redux";
+import { verifyRewards } from "../../services/redux/actions";
 
 const Achievements = (campaigns) => {
   const useStyles = makeStyles({
@@ -22,40 +24,54 @@ const Achievements = (campaigns) => {
     },
   });
 
+  const dispatch = useDispatch();
+
   const handleRowClick = () => {
     console.log("Test");
   };
 
-  const renderButton = useCallback((row) => {
-    return (
-      <div sytle={{ display: "flex", justifyContent: "center" }}>
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
-          <RoundButton
-            style={{
-              backgroundColor: "black",
-              borderColor: "black",
-            }}
-            label="Claimed"
-            leftIcon={
-              <img
-                style={{ height: 16, width: 16, marginRight: 8 }}
-                src={"green-check.png"}
-                alt={"green-check"}
-              ></img>
-            }
-          />
-
-          {/* <RoundButton
-            style={{
-                backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
-                borderColor: `${`rgba(55, 215, 100, 1)`}`,
-            }}
-            label="Claim"
-            /> */}
-        </div>{" "}
-      </div>
-    );
-  }, []);
+  const renderButton = useCallback(
+    (row) => {
+      if (row.status === "claimed") {
+        return (
+          <div sytle={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <RoundButton
+                style={{
+                  backgroundColor: "black",
+                  borderColor: "black",
+                }}
+                label="Claimed"
+                leftIcon={
+                  <img
+                    style={{ height: 16, width: 16, marginRight: 8 }}
+                    src={"green-check.png"}
+                    alt={"green-check"}
+                  ></img>
+                }
+              />
+            </div>{" "}
+          </div>
+        );
+      } else if (row.status === "enrolled") {
+        return (
+          <div sytle={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <RoundButton
+                onPress={() => dispatch(verifyRewards(row._id))}
+                style={{
+                  backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
+                  borderColor: `${`rgba(55, 215, 100, 1)`}`,
+                }}
+                label="Claim"
+              />
+            </div>{" "}
+          </div>
+        );
+      } else {
+        return null;
+      }
+    }, []);
 
   const renderHeader = useCallback(() => {
     return (
@@ -163,8 +179,11 @@ const Achievements = (campaigns) => {
         <TableHead>{renderHeader()}</TableHead>
         <TableBody>
           {campaigns.campaigns.map((row) => {
-            return renderRow(row);
-          })}
+              if(row.status === "claimed" || row.status === "enrolled") 
+                return renderRow(row);
+              else
+                return null;
+           })}
         </TableBody>
       </Table>
     </TableContainer>

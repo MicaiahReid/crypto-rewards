@@ -2,9 +2,12 @@ import React, { useCallback, useState } from "react";
 import RoundButton from "../../components/round-button";
 import { animated, useSpring } from "@react-spring/web";
 import { useDispatch } from "react-redux";
-import { enrollToChallenge, verifyRewards } from "../../../services/redux/actions";
+import {
+  enrollToChallenge,
+  verifyRewards,
+} from "../../../services/redux/actions";
 
-const Campaign = ({ onSelect, campaign}) => {
+const Campaign = ({ onSelect, campaign }) => {
   const [isHovering, setIsHovering] = useState(false);
   const animationStyle = useSpring({
     translateY: isHovering ? -4 : 0,
@@ -22,7 +25,7 @@ const Campaign = ({ onSelect, campaign}) => {
   }, [onSelect, campaign]);
 
   const renderButton = useCallback(() => {
-    console.log("Button called here")
+    console.log("Button called here");
     if (campaign.status === "claimed")
       return (
         <RoundButton
@@ -43,7 +46,7 @@ const Campaign = ({ onSelect, campaign}) => {
     else if (campaign.status === "enrolled")
       return (
         <RoundButton
-        onClick={() => dispatch(verifyRewards(campaign._id))}
+          onPress={() => dispatch(verifyRewards(campaign._id))}
           style={{
             marginTop: 8,
             backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
@@ -55,7 +58,7 @@ const Campaign = ({ onSelect, campaign}) => {
     else
       return (
         <RoundButton
-          onClick={() => dispatch(enrollToChallenge(campaign._id))}
+          onPress={() => dispatch(enrollToChallenge(campaign._id))}
           style={{ marginTop: 8 }}
           label={"Enroll"}
         />
