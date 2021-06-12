@@ -5,9 +5,10 @@ import { useDispatch } from "react-redux";
 import {
   enrollToChallenge,
   verifyRewards,
+  selectCampaign,
 } from "../../../services/redux/actions";
 
-const Campaign = ({ onSelect, campaign }) => {
+const Campaign = ({ campaign }) => {
   const [isHovering, setIsHovering] = useState(false);
   const animationStyle = useSpring({
     translateY: isHovering ? -4 : 0,
@@ -19,9 +20,9 @@ const Campaign = ({ onSelect, campaign }) => {
 
   const dispatch = useDispatch();
 
-  const selectCampaign = useCallback(() => {
-    onSelect(campaign);
-  }, [onSelect, campaign]);
+  const triggerSelectCampaign = useCallback(() => {
+    dispatch(selectCampaign(campaign));
+  }, [dispatch, campaign]);
 
   const renderButton = useCallback(() => {
     if (campaign.status === "claimed")
@@ -80,7 +81,7 @@ const Campaign = ({ onSelect, campaign }) => {
         marginBottom: 24,
         ...animationStyle,
       }}
-      onClick={selectCampaign}
+      onClick={triggerSelectCampaign}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
     >

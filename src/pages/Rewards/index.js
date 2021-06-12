@@ -7,12 +7,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Box from "@material-ui/core/Box";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import RoundButton from "../components/round-button";
-import { useDispatch } from "react-redux";
-import { verifyRewards } from "../../services/redux/actions";
+import CustomTableRow from "./components/custom-table-row";
 
-const Achievements = (campaigns) => {
+const Achievements = ({ campaigns }) => {
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
@@ -24,65 +21,19 @@ const Achievements = (campaigns) => {
     },
   });
 
-  const dispatch = useDispatch();
-
-  const handleRowClick = () => {
-    console.log("Clicked row");
-  };
-
-  const renderButton = useCallback(
-    (row) => {
-      if (row.status === "claimed") {
-        return (
-          <div sytle={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <RoundButton
-                style={{
-                  backgroundColor: "black",
-                  borderColor: "black",
-                }}
-                label="Claimed"
-                leftIcon={
-                  <img
-                    style={{ height: 16, width: 16, marginRight: 8 }}
-                    src={"green-check.png"}
-                    alt={"green-check"}
-                  ></img>
-                }
-              />
-            </div>{" "}
-          </div>
-        );
-      } else if (row.status === "enrolled") {
-        return (
-          <div sytle={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <RoundButton
-                onPress={() => dispatch(verifyRewards(row._id))}
-                style={{
-                  backgroundColor: `${`rgba(55, 215, 100, 1)`}`,
-                  borderColor: `${`rgba(55, 215, 100, 1)`}`,
-                }}
-                label="Claim"
-              />
-            </div>{" "}
-          </div>
-        );
-      } else {
-        return null;
-      }
-    },
-    [dispatch]
-  );
-
   const renderHeader = useCallback(() => {
     return (
-      <TableRow style={{ backgroundColor: `${`rgba(89, 93, 149, 0.04)`}` }}>
+      <TableRow
+        style={{
+          backgroundColor: `${`rgba(89, 93, 149, 0.04)`}`,
+        }}
+      >
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           PROTOCOL
@@ -90,8 +41,9 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           CHALLENGE
@@ -99,8 +51,9 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           REWARD
@@ -108,8 +61,9 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         >
           STATUS
@@ -117,71 +71,23 @@ const Achievements = (campaigns) => {
         <TableCell
           style={{
             color: `${`rgba(133, 135, 168, 1)`}`,
-            fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
+            fontSize: 13,
+            fontFamily: "Poppins",
           }}
         ></TableCell>
       </TableRow>
     );
   }, []);
 
-  const renderRow = useCallback(
-    (row) => {
-      return (
-        <TableRow key={row._id} onClick={handleRowClick}>
-          <TableCell
-            component="th"
-            scope="row"
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {row.protocol}
-          </TableCell>
-          <TableCell
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {row.title}
-          </TableCell>
-          <TableCell
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {row.reward}
-          </TableCell>
-          <TableCell
-            style={{
-              color: "black",
-              fontSize: 20,
-            }}
-          >
-            {renderButton(row)}
-          </TableCell>
-          <TableCell>
-            <ChevronRightIcon
-              style={{ color: `${`rgba(175, 192, 216, 1)`}` }}
-            />
-          </TableCell>
-        </TableRow>
-      );
-    },
-    [renderButton]
-  );
-
   return (
     <TableContainer component={Box}>
       <Table className={useStyles.table} aria-label="simple table">
         <TableHead>{renderHeader()}</TableHead>
         <TableBody>
-          {campaigns.campaigns.map((row) => {
-            if (row.status === "claimed" || row.status === "enrolled")
-              return renderRow(row);
+          {campaigns.map((campaign) => {
+            if (campaign.status === "claimed" || campaign.status === "enrolled")
+              return <CustomTableRow key={campaign._id} campaign={campaign} />;
             else return null;
           })}
         </TableBody>

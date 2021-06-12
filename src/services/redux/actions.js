@@ -26,6 +26,13 @@ export const enrollToChallenge = (campaignId) => ({
   },
 });
 
+export const selectCampaign = (campaign) => ({
+  type: ActionTypes.SELECT_CAMPAIGN,
+  payload: {
+    campaign,
+  },
+});
+
 export const dismissLanding = () => ({
   type: ActionTypes.DISMISS_LANDING,
 });

@@ -6,10 +6,19 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
 import RoundButton from "../components/round-button";
 import { useDispatch } from "react-redux";
-import { enrollToChallenge, verifyRewards } from "../../services/redux/actions";
+import {
+  enrollToChallenge,
+  verifyRewards,
+  selectCampaign,
+} from "../../services/redux/actions";
 
-const CampaignModalDetail = ({ campaign, onClose, open }) => {
+const CampaignModalDetail = ({ campaign, open }) => {
   const dispatch = useDispatch();
+
+  const triggerDismissCampaignModal = useCallback(
+    () => dispatch(selectCampaign(undefined)),
+    [dispatch]
+  );
 
   const renderButton = useCallback(() => {
     if (campaign.status === "claimed")
@@ -54,7 +63,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
   if (campaign)
     return (
       <Dialog
-        onClose={onClose}
+        onClose={triggerDismissCampaignModal}
         aria-labelledby="challenge-dialog-title"
         open={open}
       >
@@ -79,7 +88,7 @@ const CampaignModalDetail = ({ campaign, onClose, open }) => {
               {campaign.protocol}
             </div>
 
-            <div onClick={onClose}>
+            <div onClick={triggerDismissCampaignModal}>
               <img
                 style={{ flex: 1, height: 32, width: 32, marginTop: 8 }}
                 src={"dismiss-button.png"}

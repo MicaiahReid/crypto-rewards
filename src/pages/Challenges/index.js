@@ -16,11 +16,7 @@ class Protocol extends React.Component {
       <div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {campaigns.map((campaign) => (
-            <Campaign
-              onSelect={this.props.onSelectCampaign}
-              key={campaign._id}
-              campaign={campaign}
-            ></Campaign>
+            <Campaign key={campaign._id} campaign={campaign}></Campaign>
           ))}
         </div>
         <div

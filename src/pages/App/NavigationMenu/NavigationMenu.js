@@ -8,37 +8,31 @@ import Landing from "../../Landing";
 import CampaignModalDetail from "../../CampaignModalDetail";
 import { animated, useSpring } from "@react-spring/web";
 import { useSelector, useDispatch } from "react-redux";
-import { dismissLanding } from "../../../services/redux/actions";
+import {
+  dismissLanding,
+  selectCampaign,
+} from "../../../services/redux/actions";
 import {
   getCampaigns,
   getShowLanding,
+  getSelectedCampaign,
 } from "../../../services/redux/selectors";
 
 const NavigationMenu = () => {
   const dispatch = useDispatch();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [selectedCampaign, setSelectedCampaign] = useState(undefined);
   const [fadeStyle, fadeApi] = useSpring(() => ({
     opacity: 1,
     onRest: () => dispatch(dismissLanding()),
   }));
   const campaigns = useSelector(getCampaigns);
   const showLanding = useSelector(getShowLanding);
-
-  const triggerDismissCampaignModal = useCallback(
-    () => setSelectedCampaign(undefined),
-    [setSelectedCampaign]
-  );
+  const selectedCampaign = useSelector(getSelectedCampaign);
 
   const renderPages = useCallback(() => {
     switch (selectedTabIndex) {
       case 0:
-        return (
-          <Protocol
-            onSelectCampaign={setSelectedCampaign}
-            campaigns={campaigns}
-          ></Protocol>
-        );
+        return <Protocol campaigns={campaigns}></Protocol>;
       case 1:
         return <Achievements campaigns={campaigns}></Achievements>;
       default:
@@ -58,11 +52,10 @@ const NavigationMenu = () => {
     return (
       <CampaignModalDetail
         open={!!selectedCampaign}
-        onClose={triggerDismissCampaignModal}
         campaign={selectedCampaign}
       ></CampaignModalDetail>
     );
-  }, [selectedCampaign, triggerDismissCampaignModal]);
+  }, [selectedCampaign]);
 
   return (
     <div

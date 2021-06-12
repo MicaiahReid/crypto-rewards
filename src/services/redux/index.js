@@ -8,11 +8,13 @@ export const ActionTypes = {
   VERIFY_REWARDS: "VERIFY_REWARDS",
   ENROLL_TO_CHALLENGE: "ENROLL_TO_CHALLENGE",
   DISMISS_LANDING: "DISMISS_LANDING",
+  SELECT_CAMPAIGN: "SELECT_CAMPAIGN",
 };
 
 const appState = {
   campaigns: [],
   showLanding: true,
+  selectedCampaign: undefined,
 };
 
 // Reducers
@@ -27,6 +29,11 @@ const appReducer = (state = appState, action) => {
       return {
         ...state,
         showLanding: false,
+      };
+    case ActionTypes.SELECT_CAMPAIGN:
+      return {
+        ...state,
+        selectedCampaign: action.payload.campaign,
       };
     default:
       return state;
