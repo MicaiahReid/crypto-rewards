@@ -39,8 +39,11 @@ async function verifyTrade(data) {
         const tradedAmount = parseInt(transferLogData);
         const tradedAmountAdjusted = moveDecimals(tradedAmount, -18); // TODO would be cool not to hard code this
         if (tradedAmountAdjusted >= data.minimumValue) {
+          console.log(tx.value);
           const weiSpent = parseInt(tx.value);
-          const exchangeRate = weiSpent / tradedAmount;
+          console.log(weiSpent, tradedAmountAdjusted);
+          const exchangeRate = weiSpent / tradedAmountAdjusted;
+          console.log(exchangeRate, data.rewardDecimal);
           return data.rewardDecimal * exchangeRate;
         } else {
           return "not enough funds traded";
