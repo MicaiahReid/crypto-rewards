@@ -37,8 +37,13 @@ exports.payout = async (amount, address) => {
       amount
   );
   const contract = await getCampaignContract();
-  const transaction = await contract.payout(true, address, amount, {
-    from: process.env.CONTRACT_ADDRESS,
-  });
+  const transaction = await contract.functions.payout(
+    true,
+    address.toString(),
+    amount,
+    {
+      from: process.env.INITIAL_FUND_ADDRESS.toString(),
+    }
+  );
   return transaction;
 };
