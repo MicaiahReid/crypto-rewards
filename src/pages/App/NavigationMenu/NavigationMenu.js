@@ -58,7 +58,7 @@ const NavigationMenu = () => {
     return (
       <CampaignModalDetail
         open={!!selectedCampaign}
-        campaign={selectedCampaign}
+        campaignId={(selectedCampaign && selectedCampaign._id) || ""}
       ></CampaignModalDetail>
     );
   }, [selectedCampaign]);

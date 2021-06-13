@@ -5,15 +5,17 @@ import ReactMarkdown from "react-markdown";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
 import RoundButton from "../components/round-button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   enrollToChallenge,
   verifyRewards,
   selectCampaign,
 } from "../../services/redux/actions";
+import { getCampaignById } from "../../services/redux/selectors";
 
-const CampaignModalDetail = ({ campaign, open }) => {
+const CampaignModalDetail = ({ campaignId, open }) => {
   const dispatch = useDispatch();
+  const campaign = useSelector((store) => getCampaignById(store, campaignId));
 
   const triggerDismissCampaignModal = useCallback(
     () => dispatch(selectCampaign(undefined)),
