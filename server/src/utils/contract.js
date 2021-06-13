@@ -30,6 +30,12 @@ const getCampaignContract = async () => {
 };
 
 exports.payout = async (amount, address) => {
+  console.log(
+    "About to call smart contract for address: " +
+      address +
+      " for amount " +
+      amount
+  );
   const contract = await getCampaignContract();
   const transaction = await contract.payout(true, address, amount, {
     from: process.env.CONTRACT_ADDRESS,
