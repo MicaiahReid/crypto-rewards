@@ -39,7 +39,7 @@ const RoundButton = ({
       default:
         return {
           height: 28,
-          padding: "0px 22px",
+          padding: `0px ${!!leftIcon ? "15" : "20"}px`,
           fontWeight: "800",
           fontSize: 12,
           color: "white",
