@@ -1,11 +1,12 @@
 const { userCampaign, user } = require("../models");
 const { getLatestBlockNum } = require("../utils/web3-helper");
 const { verify } = require("../utils/verify");
+const { payout } = require("../utils/contract");
 
 exports.enroll = async (req, res) => {
   const { address, campaignId } = req.body;
   const cryptoRewardsUser = await user.findOne({ address: address });
-
+  console.log(cryptoRewardsUser);
   if (cryptoRewardsUser !== null && cryptoRewardsUser !== undefined) {
     try {
       const enrollBlock = await getLatestBlockNum();
@@ -70,7 +71,7 @@ exports.verify = async (req, res) => {
           .populate("campaign")
           .execPopulate();
         const verificationData = {
-          userAddress: userCampaignInst.user.address,
+          userAddress: address,
           campaignAddress: userCampaignInst.campaign.address,
           verificationType: userCampaignInst.campaign.verificationType,
           minimumValue: userCampaignInst.campaign.minimumValue,
@@ -82,29 +83,39 @@ exports.verify = async (req, res) => {
           "verifying user: " +
             cryptoRewardsUser._id +
             " with address " +
-            userCampaignInst.user.address +
+            address +
             " in campaign " +
             campaignId +
             " at block" +
             verifyBlock
         );
         // and not let's verify!
-        const payout = await verify(verificationData);
-        if (payout && payout > 0) {
-          console.log(payout);
-          // TODO: now just call the contract to pay!
+        const payoutAmount = await verify(verificationData);
+        if (payoutAmount && payoutAmount > 0) {
+          console.log("User should be paid " + payoutAmount + " wei");
+          payout(payoutAmount, address);
+          // we're just assuming that the payout above works because we don't have time to handle
+          // the fact that it takes a while to get a response on a successful contract call
+          //if (payoutReceipt && payoutReceipt.status === true) {
           userCampaignInst.claimedReward = true;
           userCampaignInst.save();
-          return res.status(200).json({
-            success: true,
-          });
+          return res.status(200).json({ success: true });
+          //} else {
+          //   return res.status(400).json({
+          //     error:
+          //       "Successfully verified " +
+          //       userCampaignInst.campaign.verificationType +
+          //       ", but could not send reward. Try again later. Details: " +
+          //       payoutTx,
+          //   });
+          // }
         } else {
           return res.status(400).json({
             error:
               "failed to verify " +
               userCampaignInst.campaign.verificationType +
               ". " +
-              payout,
+              payoutAmount,
           });
         }
       } catch (error) {
