@@ -189,7 +189,11 @@ const CampaignModalDetail = ({ campaignId, open }) => {
               >
                 Instructions
               </div>
-              <ReactMarkdown skipHtml={true} style={{ color: "red" }}>
+              <ReactMarkdown
+                renderers={{ code: () => <div>{"lol"}</div> }}
+                skipHtml={true}
+                style={{ color: "red" }}
+              >
                 {campaign.longDescription}
               </ReactMarkdown>
             </div>
@@ -223,22 +227,22 @@ const CampaignModalDetail = ({ campaignId, open }) => {
                     marginRight: 4,
                   }}
                 >
-                  To learn more about this protocol:{" "}
+                  {"To learn more about this protocol:"}
+                  <u>
+                    <Link
+                      style={{
+                        color: `${`rgba(95, 107, 124, 1)`}`,
+                        fontSize: 13,
+                        fontWeight: "800",
+                        underline: true,
+                        marginLeft: 4,
+                      }}
+                      href={campaign.about}
+                    >
+                      {"Visit Website"}
+                    </Link>
+                  </u>
                 </div>
-
-                <u>
-                  <Link
-                    style={{
-                      color: `${`rgba(95, 107, 124, 1)`}`,
-                      fontSize: 13,
-                      fontWeight: "800",
-                      underline: true,
-                    }}
-                    href={campaign.about}
-                  >
-                    Visit Website
-                  </Link>
-                </u>
               </div>
             </div>
           </DialogContent>

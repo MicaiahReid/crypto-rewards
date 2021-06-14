@@ -16,3 +16,5 @@ export const getCampaignById = (store, campaignId) => {
   }
   return undefined;
 };
+
+export const getAccountAddress = (store) => store.app.accountAddress;

@@ -1,9 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./pages/App/App";
+import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { Provider } from "react-redux";
+import { store } from "./services/redux";
+import _ from "./services/metamask";
 
 const theme = createMuiTheme({
   shape: {
@@ -14,7 +17,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <React.StrictMode>
     <MuiThemeProvider theme={theme}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
