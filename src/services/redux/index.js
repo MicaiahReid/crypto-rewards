@@ -10,6 +10,9 @@ export const ActionTypes = {
   DISMISS_LANDING: "DISMISS_LANDING",
   SELECT_CAMPAIGN: "SELECT_CAMPAIGN",
   SET_TOAST: "SET_TOAST",
+  CHECK_FOR_USER: "CHECK_FOR_USER",
+  SET_ACCOUNT_ADDRESS: "SET_ACCOUNT_ADDRESS",
+  RESET_STORE: "RESET_STORE",
 };
 
 const appState = {
@@ -17,6 +20,7 @@ const appState = {
   showLanding: true,
   selectedCampaign: undefined,
   toast: undefined,
+  accountAddress: undefined,
 };
 
 // Reducers
@@ -42,6 +46,18 @@ const appReducer = (state = appState, action) => {
         ...state,
         toast: action.payload.toast,
       };
+    case ActionTypes.SET_ACCOUNT_ADDRESS: {
+      return {
+        ...state,
+        accountAddress: action.payload.address,
+      };
+    }
+    case ActionTypes.RESET_STORE: {
+      return {
+        ...appState,
+        showLanding: state.showLanding,
+      };
+    }
     default:
       return state;
   }

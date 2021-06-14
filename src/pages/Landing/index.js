@@ -41,7 +41,12 @@ const Landing = ({ onDismiss }) => {
             label={"Earn Rewards"}
             onPress={onDismiss}
           />
-          <RoundButtom size={"large"} type={"outline"} label={"Learn More"} />
+          <RoundButtom
+            onPress={() => alert("Show more info about Consensys Rewards.")}
+            size={"large"}
+            type={"outline"}
+            label={"Learn More"}
+          />
         </div>
       </div>
     );

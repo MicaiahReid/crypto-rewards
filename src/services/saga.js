@@ -2,7 +2,13 @@ import { all, takeLatest, put, call } from "redux-saga/effects";
 import { ActionTypes } from "./redux/index";
 import axios from "../utils/API";
 import getConnectedPublicAddress from "../utils/MetaMaskUtils";
-import { setCampaigns, fetchCampaigns, setToast } from "./redux/actions";
+import {
+  setCampaigns,
+  fetchCampaigns,
+  setToast,
+  resetStore,
+} from "./redux/actions";
+import MetaMaskService from "./metamask";
 
 function* getAccountAddress() {
   const accounts = yield call(getConnectedPublicAddress);
@@ -10,6 +16,30 @@ function* getAccountAddress() {
     return accounts[0];
   }
   throw new Error("Need to connect wallet.");
+}
+
+function* checkForUserApi() {
+  try {
+    const accountAddress = yield call(getAccountAddress);
+    const apiPath = `/api/user/${accountAddress}`;
+    const results = yield call(axios.get, apiPath);
+    if (results.data && results.data._id) {
+      // User already exists
+    } else {
+      // User doesn't exist. Create user
+      const apiPath = `/api/user/`;
+      const results = yield call(axios.post, apiPath, {
+        address: accountAddress,
+      });
+      if (results.data && results.data._id) {
+        // Successfully created user
+      } else {
+        throw new Error("Failed to create user.");
+      }
+    }
+  } catch (error) {
+    console.log("Error checking for user", error);
+  }
 }
 
 function* fetchCampaignsApi() {
@@ -80,9 +110,29 @@ function* watchEnrollToChallenge() {
   yield takeLatest(ActionTypes.ENROLL_TO_CHALLENGE, enrollToChallengeApi);
 }
 
+function* watchCheckForUser() {
+  yield takeLatest(ActionTypes.CHECK_FOR_USER, checkForUserApi);
+}
+
+function* processAccountChanges(action) {
+  const { address } = action.payload;
+  if (address) {
+    yield call(checkForUserApi);
+    yield call(fetchCampaignsApi);
+    MetaMaskService.stopOnboarding && MetaMaskService.stopOnboarding();
+  } else {
+    // Disconnected
+    yield put(resetStore());
+  }
+}
+function* watchAccountChanges() {
+  yield takeLatest(ActionTypes.SET_ACCOUNT_ADDRESS, processAccountChanges);
+}
+
 export default function* rootSaga() {
   yield all([
-    fetchCampaignsApi(),
+    watchAccountChanges(),
+    watchCheckForUser(),
     watchCampaignUpdates(),
     watchVerifyRewards(),
     watchEnrollToChallenge(),

@@ -1,31 +1,29 @@
 import React, { useCallback, useState } from "react";
-import Protocol from "../../Challenges";
-import Achievements from "../../Rewards";
-import OnboardingButton from "./OnboardingButton/OnboardingButton";
-import CustomTabs from "../../components/tabs";
-import Header from "../../components/header";
-import Landing from "../../Landing";
-import CampaignModalDetail from "../../CampaignModalDetail";
+import Challenges from "../Challenges";
+import Rewards from "../Rewards";
+import OnboardingButton from "../components/onboarding-button";
+import CustomTabs from "../components/tabs";
+import Header from "../components/header";
+import Landing from "../Landing";
+import CampaignModalDetail from "../CampaignModalDetail";
 import { animated, useSpring } from "@react-spring/web";
 import { useSelector, useDispatch } from "react-redux";
-import { dismissLanding, setToast } from "../../../services/redux/actions";
+import { dismissLanding, setToast } from "../../services/redux/actions";
 import {
-  getCampaigns,
   getShowLanding,
   getSelectedCampaign,
   getToast,
-} from "../../../services/redux/selectors";
+} from "../../services/redux/selectors";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 
-const NavigationMenu = () => {
+const App = () => {
   const dispatch = useDispatch();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [fadeStyle, fadeApi] = useSpring(() => ({
     opacity: 1,
     onRest: () => dispatch(dismissLanding()),
   }));
-  const campaigns = useSelector(getCampaigns);
   const showLanding = useSelector(getShowLanding);
   const selectedCampaign = useSelector(getSelectedCampaign);
   const toast = useSelector(getToast);
@@ -38,13 +36,13 @@ const NavigationMenu = () => {
   const renderPages = useCallback(() => {
     switch (selectedTabIndex) {
       case 0:
-        return <Protocol campaigns={campaigns}></Protocol>;
+        return <Challenges />;
       case 1:
-        return <Achievements campaigns={campaigns}></Achievements>;
+        return <Rewards />;
       default:
         return <div>{`Page doesn't exist`}</div>;
     }
-  }, [selectedTabIndex, campaigns]);
+  }, [selectedTabIndex]);
 
   const renderLanding = useCallback(() => {
     return showLanding ? (
@@ -58,7 +56,7 @@ const NavigationMenu = () => {
     return (
       <CampaignModalDetail
         open={!!selectedCampaign}
-        campaign={selectedCampaign}
+        campaignId={(selectedCampaign && selectedCampaign._id) || ""}
       ></CampaignModalDetail>
     );
   }, [selectedCampaign]);
@@ -126,4 +124,4 @@ const NavigationMenu = () => {
   );
 };
 
-export default NavigationMenu;
+export default App;

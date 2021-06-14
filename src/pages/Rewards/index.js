@@ -8,8 +8,17 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Box from "@material-ui/core/Box";
 import CustomTableRow from "./components/custom-table-row";
+import { useSelector } from "react-redux";
+import {
+  getAccountAddress,
+  getCampaigns,
+} from "../../services/redux/selectors";
+import NoWalletPlaceholder from "../components/no-wallet-placeholder";
 
-const Achievements = ({ campaigns }) => {
+const Rewards = () => {
+  const accountAddress = useSelector(getAccountAddress);
+  const campaigns = useSelector(getCampaigns);
+
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
@@ -36,7 +45,7 @@ const Achievements = ({ campaigns }) => {
             fontFamily: "Poppins",
           }}
         >
-          PROTOCOL
+          {"PROTOCOL"}
         </TableCell>
         <TableCell
           style={{
@@ -46,7 +55,7 @@ const Achievements = ({ campaigns }) => {
             fontFamily: "Poppins",
           }}
         >
-          CHALLENGE
+          {"CHALLENGE"}
         </TableCell>
         <TableCell
           style={{
@@ -56,7 +65,7 @@ const Achievements = ({ campaigns }) => {
             fontFamily: "Poppins",
           }}
         >
-          REWARD
+          {"REWARD"}
         </TableCell>
         <TableCell
           style={{
@@ -66,7 +75,7 @@ const Achievements = ({ campaigns }) => {
             fontFamily: "Poppins",
           }}
         >
-          STATUS
+          {"STATUS"}
         </TableCell>
         <TableCell
           style={{
@@ -89,6 +98,15 @@ const Achievements = ({ campaigns }) => {
     [campaigns]
   );
 
+  const renderPlaceholder = useCallback(() => {
+    return (
+      <NoWalletPlaceholder
+        placeholder={"Go check out the challenges to earn rewards!"}
+        accountAddress={accountAddress}
+      />
+    );
+  }, [accountAddress]);
+
   return (
     <TableContainer component={Box}>
       <Table className={useStyles.table} aria-label="simple table">
@@ -101,22 +119,9 @@ const Achievements = ({ campaigns }) => {
           </TableBody>
         ) : null}
       </Table>
-      {filteredCampaigns.length > 0 ? null : (
-        <div
-          style={{
-            display: "flex",
-            marginTop: 64,
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: 20,
-            fontWeight: "600",
-          }}
-        >
-          {"Go checkout the challenges to earn rewards!"}
-        </div>
-      )}
+      {filteredCampaigns.length > 0 ? null : renderPlaceholder()}
     </TableContainer>
   );
 };
 
-export default Achievements;
+export default Rewards;

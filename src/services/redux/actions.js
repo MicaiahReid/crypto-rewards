@@ -43,3 +43,18 @@ export const setToast = (toast) => ({
     toast,
   },
 });
+
+export const checkForUser = () => ({
+  type: ActionTypes.CHECK_FOR_USER,
+});
+
+export const setAccountAddress = (address) => ({
+  type: ActionTypes.SET_ACCOUNT_ADDRESS,
+  payload: {
+    address,
+  },
+});
+
+export const resetStore = () => ({
+  type: ActionTypes.RESET_STORE,
+});

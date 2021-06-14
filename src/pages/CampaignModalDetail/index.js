@@ -5,15 +5,17 @@ import ReactMarkdown from "react-markdown";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
 import RoundButton from "../components/round-button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   enrollToChallenge,
   verifyRewards,
   selectCampaign,
 } from "../../services/redux/actions";
+import { getCampaignById } from "../../services/redux/selectors";
 
-const CampaignModalDetail = ({ campaign, open }) => {
+const CampaignModalDetail = ({ campaignId, open }) => {
   const dispatch = useDispatch();
+  const campaign = useSelector((store) => getCampaignById(store, campaignId));
 
   const triggerDismissCampaignModal = useCallback(
     () => dispatch(selectCampaign(undefined)),
@@ -187,7 +189,11 @@ const CampaignModalDetail = ({ campaign, open }) => {
               >
                 Instructions
               </div>
-              <ReactMarkdown skipHtml={true} style={{ color: "red" }}>
+              <ReactMarkdown
+                renderers={{ code: () => <div>{"lol"}</div> }}
+                skipHtml={true}
+                style={{ color: "red" }}
+              >
                 {campaign.longDescription}
               </ReactMarkdown>
             </div>
@@ -221,22 +227,22 @@ const CampaignModalDetail = ({ campaign, open }) => {
                     marginRight: 4,
                   }}
                 >
-                  To learn more about this protocol:{" "}
+                  {"To learn more about this protocol:"}
+                  <u>
+                    <Link
+                      style={{
+                        color: `${`rgba(95, 107, 124, 1)`}`,
+                        fontSize: 13,
+                        fontWeight: "800",
+                        underline: true,
+                        marginLeft: 4,
+                      }}
+                      href={campaign.about}
+                    >
+                      {"Visit Website"}
+                    </Link>
+                  </u>
                 </div>
-
-                <u>
-                  <Link
-                    style={{
-                      color: `${`rgba(95, 107, 124, 1)`}`,
-                      fontSize: 13,
-                      fontWeight: "800",
-                      underline: true,
-                    }}
-                    href={campaign.about}
-                  >
-                    Visit Website
-                  </Link>
-                </u>
               </div>
             </div>
           </DialogContent>
